@@ -26,7 +26,8 @@ The project aims to cover the whole Software Development Life Cycle (SDLC). That
 ## Implementation
 
 ### Phase 1
-
+<a href="https://devopsroadmap.io/projects/hivebox" style="display: block; padding: .5em 0; text-align: center;">
+<img alt="HiveBox - DevOps End-to-End Hands-On Project" border="0" width="90%" src="https://devopsroadmap.io/assets/images/module-01-overview-e3d852c2bde8272515f2c444221cdbfd.png" />
 
 - [Create GitHub account](https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github) (if you don't have one), then [fork this repository](https://github.com/DevOpsHiveHQ/devops-hands-on-project-hivebox/fork) and start from there.
 - [Create GitHub project board](https://docs.github.com/en/issues/planning-and-tracking-with-projects/creating-projects/creating-a-project) for this repository (use `Kanban` template).
@@ -35,6 +36,12 @@ The project aims to cover the whole Software Development Life Cycle (SDLC). That
 - You can get senseBox IDs by checking the [openSenseMap](https://opensensemap.org/) website. Use 3 senseBox IDs close to each other (you can use the following [5eba5fbad46fb8001b799786](https://opensensemap.org/explore/5eba5fbad46fb8001b799786), [5c21ff8f919bf8001adf2488](https://opensensemap.org/explore/5c21ff8f919bf8001adf2488), and [5ade1acf223bd80019a1011c](https://opensensemap.org/explore/5ade1acf223bd80019a1011c)). Just copy the IDs, you will need them in the next steps.
 
 ### Phase 2
+
+<p align="center">
+  <a href="https://devopsroadmap.io/projects/hivebox/" imageanchor="1">
+    <img src="https://devopsroadmap.io/assets/images/module-02-overview-22e040ce248a0b72495dbc2cea9f6986.png" />
+  </a><br/>
+</p>
 
 - Build a Docker image, run and test it locally.
 ```sh
@@ -45,3 +52,11 @@ docker run --name hivebox hivebox-image
 ```sh
 HiveBox App Version: v0.0.1
 ```
+
+### Phase 
+
+<p align="center">
+  <a href="https://devopsroadmap.io/projects/hivebox/" imageanchor="1">
+    <img src="https://devopsroadmap.io/assets/images/module-03-overview-3269b01a0471696a3a1e5a86b4c03a4f.png" />
+  </a><br/>
+</p>
