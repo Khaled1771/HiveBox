@@ -26,8 +26,11 @@ The project aims to cover the whole Software Development Life Cycle (SDLC). That
 ## Implementation
 
 ### Phase 1
-<a href="https://devopsroadmap.io/projects/hivebox" style="display: block; padding: .5em 0; text-align: center;">
-<img alt="HiveBox - DevOps End-to-End Hands-On Project" border="0" width="90%" src="https://devopsroadmap.io/assets/images/module-01-overview-e3d852c2bde8272515f2c444221cdbfd.png" />
+<p align="center">
+  <a href="https://devopsroadmap.io/projects/hivebox/" imageanchor="1">
+    <img src="https://devopsroadmap.io/assets/images/module-01-overview-e3d852c2bde8272515f2c444221cdbfd.png" />
+  </a><br/>
+</p>
 
 - [Create GitHub account](https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github) (if you don't have one), then [fork this repository](https://github.com/DevOpsHiveHQ/devops-hands-on-project-hivebox/fork) and start from there.
 - [Create GitHub project board](https://docs.github.com/en/issues/planning-and-tracking-with-projects/creating-projects/creating-a-project) for this repository (use `Kanban` template).
