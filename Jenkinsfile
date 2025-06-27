@@ -15,5 +15,17 @@ pipeline {
                 git branch: "${BRANCH}", url: "${GIT_REPO}"
             }   
         }
+
+        stage("Lint Python") {
+            steps {
+                sh "pylint *.py || true" 
+            }
+        }
+
+        stage("Unit Testing") {
+            steps {
+                sh 'pytest'
+            }
+        }
     }
 }
