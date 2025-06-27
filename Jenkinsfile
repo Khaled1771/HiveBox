@@ -20,23 +20,29 @@ pipeline {
         stage('Setup Python venv') {
             steps {
                 sh '''
-                python3 -m venv venv
-                . venv/bin/activate
-                pip install --upgrade pip
-                pip install -r requirements.txt
+                    python3 -m venv venv
+                    . venv/bin/activate
+                    pip install --upgrade pip
+                    pip install -r requirements.txt
                 '''
             }
         }
 
         stage("Lint Python") {
             steps {
-                sh "pylint *.py || true" 
+                sh '''
+                    . venv/bin/activate
+                    pylint *.py || true
+                '''
             }
         }
 
         stage("Unit Testing") {
             steps {
-                sh 'pytest'
+                sh '''
+                    . venv/bin/activate
+                    pytest
+                '''
             }
         }
     }
