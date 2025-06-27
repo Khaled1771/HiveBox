@@ -82,7 +82,7 @@ HiveBox App Version: v0.0.1
 - Apply Best Practices for containers (Resize the Docker image).
 ```sh
 docker rm hivebox   # Remove old container to create the new one
-hadolint Dockerfile
+hadolint Dockerfile   # Scan your Dockerfile
 docker build -t hivebox-image .
 docker run -d --name hivebox -p 5000:5000 hivebox-image
 ```
@@ -94,7 +94,7 @@ docker run -d --name hivebox -p 5000:5000 hivebox-image
 - Building the Docker image.
 ### 3.5 Testing
 - In the CI pipeline, call the /version endpoint and ensure it returns the correct value.
-- Access the flask app inside the container.
+- Access the flask app inside the container from your browser.
 ```sh
 http://localhost:5000/version
 http://localhost:5000/temperature
