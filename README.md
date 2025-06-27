@@ -25,7 +25,7 @@ The project aims to cover the whole Software Development Life Cycle (SDLC). That
 
 ## Implementation
 
-### Phase 1
+### Phase 1:  Welcome to the DevOps World
 <p align="center">
   <a href="https://devopsroadmap.io/projects/hivebox/" imageanchor="1">
     <img src="https://devopsroadmap.io/assets/images/module-01-overview-e3d852c2bde8272515f2c444221cdbfd.png" />
@@ -38,13 +38,19 @@ The project aims to cover the whole Software Development Life Cycle (SDLC). That
 - Document as you go. Always assume that someone else will read your project at any phase.
 - You can get senseBox IDs by checking the [openSenseMap](https://opensensemap.org/) website. Use 3 senseBox IDs close to each other (you can use the following [5eba5fbad46fb8001b799786](https://opensensemap.org/explore/5eba5fbad46fb8001b799786), [5c21ff8f919bf8001adf2488](https://opensensemap.org/explore/5c21ff8f919bf8001adf2488), and [5ade1acf223bd80019a1011c](https://opensensemap.org/explore/5ade1acf223bd80019a1011c)). Just copy the IDs, you will need them in the next steps.
 
-### Phase 2
+### Phase 2: Basics - DevOps Core
 
 <p align="center">
   <a href="https://devopsroadmap.io/projects/hivebox/" imageanchor="1">
     <img src="https://devopsroadmap.io/assets/images/module-02-overview-22e040ce248a0b72495dbc2cea9f6986.png" />
   </a><br/>
 </p>
+
+### 2.1 Tools
+- Git
+- VS code
+- Docker
+### 2.2 Steps
 
 - Build a Docker image, run and test it locally.
 ```sh
@@ -56,10 +62,29 @@ docker run --name hivebox hivebox-image
 HiveBox App Version: v0.0.1
 ```
 
-### Phase 
+### Phase 3: Start - Laying the Base
 
 <p align="center">
   <a href="https://devopsroadmap.io/projects/hivebox/" imageanchor="1">
     <img src="https://devopsroadmap.io/assets/images/module-03-overview-3269b01a0471696a3a1e5a86b4c03a4f.png" />
   </a><br/>
 </p>
+
+### 3.1 Tools
+- Hadolint and VS Code hadolint extension
+- Pylint and VS Code Pylint extension
+### 3.2 Code
+- Use Conventional Commits for Git commits.
+- Familiarize yourself with openSenseMap API.
+- Implement the code requirements (Flask) .
+- Write unit tests for all endpoints.
+### 3.3 Containers
+- Apply Best Practices for containers (Resize the Docker image).
+### 3.4 Continuous Integration (CI Pipeline)
+- Setup Jenkins server and configure it with the env.
+- Install all Flask app's packages
+- Linting code and Dockerfile.
+- Add step to unit tests.
+- Building the Docker image.
+### 3.5 Testing
+In the CI pipeline, call the /version endpoint and ensure it returns the correct value.
