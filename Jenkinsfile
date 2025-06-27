@@ -16,11 +16,16 @@ pipeline {
             }   
         }
 
-        stage("Python Packages") {
-            steps {
-                sh "pip install -r requirements.txt" 
-            }
-        }
+
+    stage('Setup Python venv') {
+      steps {
+        sh '''
+          python3 -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+        '''
+      }
 
         stage("Lint Python") {
             steps {
