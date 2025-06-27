@@ -16,6 +16,12 @@ pipeline {
             }   
         }
 
+        stage("Python Packages") {
+            steps {
+                sh "pip install -r requirements.txt" 
+            }
+        }
+
         stage("Lint Python") {
             steps {
                 sh "pylint *.py || true" 
