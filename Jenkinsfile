@@ -31,8 +31,7 @@ pipeline {
         stage("Lint Python") {
             steps {
                 sh '''
-                    . venv/bin/activate
-                    pylint *.py || true
+                    venv/bin/pylint main.py test_app.py || true
                 '''
             }
         }
@@ -40,8 +39,7 @@ pipeline {
         stage("Unit Testing") {
             steps {
                 sh '''
-                    . venv/bin/activate
-                    pytest
+                    venv/bin/python -m pytest
                 '''
             }
         }
