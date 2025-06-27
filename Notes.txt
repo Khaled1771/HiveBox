@@ -1,0 +1,8 @@
+# إنشاء البيئة الافتراضية
+python3 -m venv venv
+
+# تفعيل البيئة
+source venv/bin/activate
+
+# اطلع من البيئة الافتراضية
+deactivate
