@@ -80,6 +80,12 @@ HiveBox App Version: v0.0.1
 - Write unit tests for all endpoints.
 ### 3.3 Containers
 - Apply Best Practices for containers (Resize the Docker image).
+```sh
+docker rm hivebox   # Remove old container to create the new one
+hadolint Dockerfile
+docker build -t hivebox-image .
+docker run -d --name hivebox -p 5000:5000 hivebox-image
+```
 ### 3.4 Continuous Integration (CI Pipeline)
 - Setup Jenkins server and configure it with the env.
 - Install all Flask app's packages
@@ -87,4 +93,9 @@ HiveBox App Version: v0.0.1
 - Add step to unit tests.
 - Building the Docker image.
 ### 3.5 Testing
-In the CI pipeline, call the /version endpoint and ensure it returns the correct value.
+- In the CI pipeline, call the /version endpoint and ensure it returns the correct value.
+- Access the flask app inside the container.
+```sh
+http://localhost:5000/version
+http://localhost:5000/temperature
+```
