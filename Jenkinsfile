@@ -53,17 +53,14 @@ pipeline {
                         // unzip -q sonar-scanner.zip
              
                     sh "export PATH=/sonar-scanner-5.0.1.3006-linux/bin:$PATH"
-                    sh ''' 
-                        sonar-scanner \
-                        -Dsonar.login=$SONAR_TOKEN
-                    '''
+                    sh "sonar-scanner -Dsonar.login=$SONAR_TOKEN"
                 }
             }
         }
 
 
 
-        stage("HadolintDocker") {
+        stage("Hadolint Docker") {
             steps {
                 script {
                     def hadolintResult = sh(script: "hadolint Dockerfile", returnStatus: true)
