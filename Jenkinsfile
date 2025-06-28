@@ -5,6 +5,7 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
         IMAGE_NAME = 'hivebox-img'
         IMAGE_TAG = "${BUILD_NUMBER}"
+        CONTAINER_NAME = "hivebox"
         GIT_REPO = 'https://github.com/Khaled1771/HiveBox.git'
         BRANCH = 'main'
     }
@@ -39,7 +40,7 @@ pipeline {
         stage("Unit Testing") {
             steps {
                 sh '''
-                    venv/bin/python -m pytest
+                    venv/bin/python -m pytest test_app.py
                 '''
             }
         }
@@ -50,10 +51,20 @@ pipeline {
                     def hadolintResult = sh(script: "hadolint Dockerfile", returnStatus: true)
                     if (hadolintResult == 0) {
                         sh "docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} ."
+                        sh "rm -f ${CONTAINER_NAME}"
+                        sh "docker run -d --name ${CONTAINER_NAME} -p 5000:5000 ${IMAGE_NAME}:${BUILD_NUMBER}"
                     } else {
                         echo "Hadolint found issues in Dockerfile"
                     }
                 }
+            }
+        }
+
+        stage("Integration Testing") {
+            steps {
+                sh '''
+                    venv/bin/python -m pytest test_integration.py
+                '''
             }
         }
     }
