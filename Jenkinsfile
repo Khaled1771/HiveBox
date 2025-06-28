@@ -43,5 +43,15 @@ pipeline {
                 '''
             }
         }
+
+         stage("Hadolint & Docker") {
+            steps {
+                sh "hadolint Dockerfile"
+                def hadolintFlag = $(echo $?)
+                if (hadolintFlag == 0) {
+                    sh "docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} ."
+                }     
+            }
+        }
     }
 }
