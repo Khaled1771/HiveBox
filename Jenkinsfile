@@ -44,7 +44,7 @@ pipeline {
             }
         }
 
-        stage("Hadolint & Docker") {
+        stage("HadolintDocker") {
             steps {
                 script {
                     def hadolintResult = sh(script: "hadolint Dockerfile", returnStatus: true)
