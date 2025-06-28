@@ -44,13 +44,16 @@ pipeline {
             }
         }
 
-         stage("Hadolint & Docker") {
+        stage("Hadolint & Docker") {
             steps {
-                sh "hadolint Dockerfile"
-                def hadolintFlag = $(echo $?)
-                if (hadolintFlag == 0) {
-                    sh "docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} ."
-                }     
+                script {
+                    def hadolintResult = sh(script: "hadolint Dockerfile", returnStatus: true)
+                    if (hadolintResult == 0) {
+                        sh "docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} ."
+                    } else {
+                        echo "Hadolint found issues in Dockerfile"
+                    }
+                }
             }
         }
     }
