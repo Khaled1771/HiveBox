@@ -51,9 +51,11 @@ pipeline {
                     
                         // curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
                         // unzip -q sonar-scanner.zip
-             
-                    sh "export PATH=/sonar-scanner-5.0.1.3006-linux/bin:$PATH"
-                    sh "sonar-scanner -Dsonar.login=$SONAR_TOKEN"
+                                    
+                    // sh "export PATH=/sonar-scanner-5.0.1.3006-linux/bin:$PATH"
+                    // sh "sonar-scanner -Dsonar.login=$SONAR_TOKEN"
+
+                    sh "/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner -Dsonar.login=$SONAR_TOKEN"
                 }
             }
         }
