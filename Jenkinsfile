@@ -45,6 +45,20 @@ pipeline {
             }
         }
 
+        stage("SonarCloud Analysis") {
+            steps {
+                withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+                    sh '''
+                        . venv/bin/activate
+                        pip install -U sonar-scanner-cli
+                        sonar-scanner \
+                        -Dsonar.login=$SONAR_TOKEN
+                    '''
+                }
+            }
+        }
+
+
         stage("HadolintDocker") {
             steps {
                 script {
