@@ -51,7 +51,7 @@ pipeline {
                     def hadolintResult = sh(script: "hadolint Dockerfile", returnStatus: true)
                     if (hadolintResult == 0) {
                         sh "docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} ."
-                        sh "rm -f ${CONTAINER_NAME}"
+                        sh "docker rm -f ${CONTAINER_NAME}"
                         sh "docker run -d --name ${CONTAINER_NAME} -p 5000:5000 ${IMAGE_NAME}:${BUILD_NUMBER}"
                     } else {
                         echo "Hadolint found issues in Dockerfile"
