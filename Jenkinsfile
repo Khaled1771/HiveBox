@@ -62,9 +62,13 @@ pipeline {
 
         stage("Integration Testing") {
             steps {
-                sh '''
-                    venv/bin/python -m pytest test_integration.py
-                '''
+               script {
+                    def hivebox_ip = sh(script: "docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${CONTAINER_NAME}", returnStdout: true).trim()
+                    sh """
+                        . venv/bin/activate
+                        HIVEBOX_IP=$hivebox_ip pytest test_integration.py
+                    """
+                }
             }
         }
     }
