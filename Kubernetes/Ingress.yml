@@ -1,0 +1,49 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hivebox-ingress
+  annotations:
+    prometheus.io/scrape: "true"      # Enable Prometheus scraping
+    prometheus.io/port: "PORT"        # Replace with actual port
+    prometheus.io/path: "/metrics"    # Path to scrape metrics 
+spec:
+  ingressClassName: nginx
+  # tls:
+  #   - hosts:
+  #       - www.hivebox.com
+  #       - prometheus.hivebox.com
+  #       - grafana.hivebox.com
+  #     secretName: hivebox-tls-secret
+  rules:
+  - host: www.hivebox.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: hivebox-service
+            port:
+              number: 5000 
+
+  - host: prometheus.hivebox.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: prometheus-kube-prometheus-prometheus
+            port:
+              number: 9090
+
+  - host: grafana.hivebox.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: grafana
+            port:
+              number: 80
