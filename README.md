@@ -151,7 +151,7 @@ http://localhost:5000/temperature
 - Try to acces you flask app inisde kubernetes using NodePort "if ypu don't use ingress"
 ```sh
 kubectl describe node kind-control-plane | grep -i ip   # Output like -> InternalIP:  172.19.0.2 
-http://172.19.0.2:<YourNodePrt>
+http://172.19.0.2:<YourNodePort>
 ```
 - Using Nginx ingress controller
 ```sh
@@ -161,4 +161,9 @@ sudo vim /etc/hosts
 #Access your ingress now
 http://www.hivebox.com
 ```
+### Tip!
+If you want to secure your app with HTTPS protocol, just generate SSL Key and assign with kubernetes secrets in ingress.yml file.
+
+- I will use it later, now just test my flask app! 
+
 ---
