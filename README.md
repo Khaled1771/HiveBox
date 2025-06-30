@@ -159,7 +159,16 @@ sudo vim /etc/hosts
 # Add Your Domain with localhost IP address
 127.0.0.1 www.hivebox.com     # Save and Exit -> :wq
 #Access your ingress now from the browser
-http://www.hivebox.com
+http://www.hivebox.com/temperature
+```
+My Flask app is Running and /temperature endpoint returns:
+```json
+{
+  "average_temperature": 26.21,
+  "sources": 4,
+  "status": "Good",
+  "unit": "\u00b0C"
+}
 ```
 ### Tip!
 If you want to secure your app with HTTPS protocol, just generate SSL Key and assign it with kubernetes secrets in ingress.yml file.
