@@ -148,22 +148,22 @@ http://localhost:5000/temperature
 - Apply Best Practices for CI.
 
 ### 4.5 Testing
-- Try to acces you flask app inisde kubernetes using NodePort "if ypu don't use ingress"
+- Try to acces you flask app inisde kubernetes using NodePort "if you don't use ingress"
 ```sh
 kubectl describe node kind-control-plane | grep -i ip   # Output like -> InternalIP:  172.19.0.2 
-http://172.19.0.2:<YourNodePort>
+http://172.19.0.2:<YourNodePort>/version
 ```
 - Using Nginx ingress controller
 ```sh
 sudo vim /etc/hosts
 # Add Your Domain with localhost IP address
 127.0.0.1 www.hivebox.com     # Save and Exit -> :wq
-#Access your ingress now
+#Access your ingress now from the browser
 http://www.hivebox.com
 ```
 ### Tip!
-If you want to secure your app with HTTPS protocol, just generate SSL Key and assign with kubernetes secrets in ingress.yml file.
+If you want to secure your app with HTTPS protocol, just generate SSL Key and assign it with kubernetes secrets in ingress.yml file.
 
-- I will use it later, now just test my flask app! 
+- I will use it later, now just testing my flask app! 
 
 ---
