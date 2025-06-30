@@ -146,3 +146,19 @@ http://localhost:5000/temperature
 - Run code integration tests.
 - Run SonarQube for code quality, security, and static analysis (Using SonarCloud).
 - Apply Best Practices for CI.
+
+### 4.5 Testing
+- Try to acces you flask app inisde kubernetes using NodePort "if ypu don't use ingress"
+```sh
+kubectl describe node kind-control-plane | grep -i ip   # Output like -> InternalIP:  172.19.0.2 
+http://172.19.0.2:<YourNodePrt>
+```
+- Using Nginx ingress controller
+```sh
+sudo vim /etc/hosts
+# Add Your Domain with localhost IP address
+127.0.0.1 www.hivebox.com     # Save and Exit -> :wq
+#Access your ingress now
+http://www.hivebox.com
+```
+---
