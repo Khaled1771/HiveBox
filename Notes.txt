@@ -1,11 +1,14 @@
-# إنشاء البيئة الافتراضية
+# Creating virtual environment
 python3 -m venv venv
 
-# تفعيل البيئة
+# Enalbe venv
 source venv/bin/activate
 
-# اطلع من البيئة الافتراضية
+# Exit venv
 deactivate
 
 pip install --upgrade pip
 pip install -r requirements.txt
+
+-------
+Think about ansible to update all k8s variable
