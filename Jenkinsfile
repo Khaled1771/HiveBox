@@ -81,7 +81,7 @@ pipeline {
                     // sh "export PATH=/sonar-scanner-5.0.1.3006-linux/bin:$PATH"
                     // sh "sonar-scanner -Dsonar.login=$SONAR_TOKEN"
                     sh "venv/bin/python -m pytest --cov=. --cov-report=xml"      // Quality Gate in process, need integration tests
-                    sh "sudo /opt/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner -Dsonar.login=$SONAR_TOKEN"
+                    sh "/opt/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner -Dsonar.login=$SONAR_TOKEN"
                 }
             }
         }
