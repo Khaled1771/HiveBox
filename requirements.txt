@@ -3,7 +3,7 @@ requests==2.32.3
 pytest
 pylint
 prometheus_client==0.20.0
-
+pytest-cov
 # ansible==10.5.0
 # ansible-core==2.17.6
 # asgiref==3.7.2
