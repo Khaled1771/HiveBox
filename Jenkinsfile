@@ -55,7 +55,7 @@ pipeline {
                     // sh "export PATH=/sonar-scanner-5.0.1.3006-linux/bin:$PATH"
                     // sh "sonar-scanner -Dsonar.login=$SONAR_TOKEN"
 
-                    sh "/home/khaled/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner -Dsonar.login=$SONAR_TOKEN"
+                    sh "sudo /home/khaled/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner -Dsonar.login=$SONAR_TOKEN"
                 }
             }
         }
