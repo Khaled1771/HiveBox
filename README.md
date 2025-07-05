@@ -29,7 +29,7 @@ DevOps end-to-end hands-on project, we will utilize the technology and open-sour
 
 <p align="center">
   <a href="https://devopsroadmap.io/projects/hivebox/" imageanchor="1">
-    <img src="https://devopsroadmap.io/assets/images/hivebox-architecture-a7fe504c22027e87b6f7b188cd57d2d8.png" />
+    <img width="90%" src="https://devopsroadmap.io/assets/images/hivebox-architecture-a7fe504c22027e87b6f7b188cd57d2d8.png" />
   </a><br/>
 </p>
 
@@ -43,7 +43,7 @@ I used Jenkins as a Continuous Integration & Continuous Deplymment tool for (CI/
 ### Phase 1:  Welcome to the DevOps World
 <p align="center">
   <a href="https://devopsroadmap.io/projects/hivebox/" imageanchor="1">
-    <img src="https://devopsroadmap.io/assets/images/module-01-overview-e3d852c2bde8272515f2c444221cdbfd.png" />
+    <img width="90%" src="https://devopsroadmap.io/assets/images/module-01-overview-e3d852c2bde8272515f2c444221cdbfd.png" />
   </a><br/>
 </p>
 
@@ -59,7 +59,7 @@ I used Jenkins as a Continuous Integration & Continuous Deplymment tool for (CI/
 
 <p align="center">
   <a href="https://devopsroadmap.io/projects/hivebox/" imageanchor="1">
-    <img src="https://devopsroadmap.io/assets/images/module-02-overview-22e040ce248a0b72495dbc2cea9f6986.png" />
+    <img width="90%" src="https://devopsroadmap.io/assets/images/module-02-overview-22e040ce248a0b72495dbc2cea9f6986.png" />
   </a><br/>
 </p>
 
@@ -84,7 +84,7 @@ HiveBox App Version: v0.0.1
 
 <p align="center">
   <a href="https://devopsroadmap.io/projects/hivebox/" imageanchor="1">
-    <img src="https://devopsroadmap.io/assets/images/module-03-overview-3269b01a0471696a3a1e5a86b4c03a4f.png" />
+    <img width="90%" src="https://devopsroadmap.io/assets/images/module-03-overview-3269b01a0471696a3a1e5a86b4c03a4f.png" />
   </a><br/>
 </p>
 
@@ -123,7 +123,7 @@ http://localhost:5000/temperature
 
 <p align="center">
   <a href="https://devopsroadmap.io/projects/hivebox/" imageanchor="1">
-    <img src="https://devopsroadmap.io/assets/images/module-04-overview-b8303bb10b6f537c8c8a00d5aa73f1cc.png" />
+    <img width="90%" src="https://devopsroadmap.io/assets/images/module-04-overview-b8303bb10b6f537c8c8a00d5aa73f1cc.png" />
   </a><br/>
 </p>
 
