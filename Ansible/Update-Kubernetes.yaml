@@ -7,6 +7,7 @@
     image_name: {{ IMAGE_NAME }}
     image_tag: {{ IMAGE_TAG }}
     manifest_file: ../Kubernetes/Flask-Deloyment.yaml
+    oldImageID: {{ oldImageID }}
 
   tasks:
 
@@ -21,7 +22,7 @@
 
     - name: Delete image using crictl inside Kind node
       shell: |
-        docker exec {{ kind_node }} crictl rmi "{{ image_name }}:{{ image_tag - 1 }}"
+        docker exec {{ kind_node }} crictl rmi {{ oldImageID }}
       register: delete_output
       ignore_errors: true
 
@@ -29,4 +30,8 @@
       debug:
         var: delete_output.stdout_lines
 
-    
+    - name: Load the new image to KinD Cluster
+      shell: kind load docker-image "{{ image_name }}:{{ image_tag }}"
+
+    - name: List all images to ensure the new image loaded successfully
+      shell: docker exec {{ kind_node }} crictl images | grep -i {{ image_name }}
