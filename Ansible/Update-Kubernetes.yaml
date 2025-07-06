@@ -2,7 +2,7 @@
 - name: Update Kuberntes Cluster
   hosts: localhost
   become: false   # Don't need root permission, i already have it with user "Khaled"
-  vars:
+  vars:           # Use Double Qoutes to read the values well
     kind_node: kind-control-plane
     image_name: "{{ IMAGE_NAME }}"
     image_tag: "{{ IMAGE_TAG }}"
