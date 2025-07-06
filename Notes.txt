@@ -11,4 +11,6 @@ pip install --upgrade pip
 pip install -r requirements.txt
 
 -------
-Think about ansible to update all k8s variable
+1. Think about ansible to update all k8s variable
+2. Forget updating image-tag using ansible, just use shell command "sed"
+3. I'll use "Ansible + Sed" command to this in kind cluster
