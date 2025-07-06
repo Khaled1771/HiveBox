@@ -86,12 +86,12 @@ pipeline {
             }
         }
 
-        stage("Kubernetes Manifest-Update") {
+        stage("Ansible & Kubernetes") {
             steps {
                 script {
-                    def hivebox_image_id = sh(script: "docker exec kind-control-plane crictl images | grep hivebox-img | awk '{print $3}'")
+                    def hivebox_image_id = sh(script: "docker exec kind-control-plane crictl images | grep hivebox-img | awk '{print $3}'")     // Show the image's ID to delete it
+                    sh "ansible-playbook Ansible/Update-Kubernetes.yaml --extra-vars 'oldImageID=${hivebox_image_id} image_name=${IMAGE_NAME} image_tag=${IMAGE_TAG}'"      // Enjoy with automation using Ansible 
                 }
-                sh "docker exec kind-control-plane crictl images | grep hivebox-img | awk '{print $3}'"
             }
         }
     }
