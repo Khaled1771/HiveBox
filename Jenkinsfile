@@ -85,5 +85,14 @@ pipeline {
                 }
             }
         }
+
+        stage("Kubernetes Manifest-Update") {
+            steps {
+                script {
+                    def hivebox_image_id = sh(script: "docker exec kind-control-plane crictl images | grep hivebox-img | awk '{print $3}'")
+                }
+                sh "docker exec kind-control-plane crictl images | grep hivebox-img | awk '{print $3}'"
+            }
+        }
     }
 }
