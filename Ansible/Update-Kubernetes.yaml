@@ -4,10 +4,10 @@
   become: false   # Don't need root permission, i already have it with user "Khaled"
   vars:
     kind_node: kind-control-plane
-    image_name: {{ IMAGE_NAME }}
-    image_tag: {{ IMAGE_TAG }}
+    image_name: "{{ IMAGE_NAME }}"
+    image_tag: "{{ IMAGE_TAG }}"
     manifest_file: ../Kubernetes/Flask-Deloyment.yaml
-    oldImageID: {{ oldImageID }}
+    oldImageID: "{{ oldImageID }}"
 
   tasks:
 
