@@ -94,5 +94,11 @@ pipeline {
                 }
             }
         }
+
+        stage("GitOps with ArgoCD") {
+            steps {
+              sh "bash /mnt/MyData/Courses/Projects/HiveBox/GitOps.sh ${IMAGE_TAG}"  
+            }
+        }
     }
 }
