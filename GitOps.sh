@@ -7,6 +7,7 @@ IMAGE_TAG=$1
 REPO_URL="https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Khaled1771/HiveBox.git"
 # Configure Git
 cd /mnt/MyData/Courses/Projects/HiveBox
+git config --global --add safe.directory /mnt/MyData/Courses/Projects/HiveBox
 git config user.name "Khaled1771"
 git config user.email "khhaledd.77@gmail.com"
 git remote set-url origin $REPO_URL
