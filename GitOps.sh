@@ -1,13 +1,19 @@
 #!/bin/bash
 
+set +x  # Hide sensitive output
 IMAGE_TAG=$1
-# This shell script for update remote git repo
+# GIT_USERNAME=${GIT_USER}
+# GIT_PASSWORD=${GIT_PASS}
+REPO_URL="https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Khaled1771/HiveBox.git"
+# Configure Git
 git config user.name "Khaled1771"
 git config user.email "khhaledd.77@gmail.com"
+git remote set-url origin $REPO_URL
+# This shell script for update remote git repo
 git checkout main
 git pull origin main
 git add -A
-git commit -m "Update HiveBox's imageTag: ${IMAGE_TAG}"
+git commit -m "Update HiveBox's imageTag: ${IMAGE_TAG}" || echo "Nothing to commit"
 git push origin main
 
 # Sync HiveBox app with ArgoCD
