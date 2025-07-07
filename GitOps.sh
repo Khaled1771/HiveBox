@@ -11,4 +11,4 @@ git commit -m "Update HiveBox's imageTag: ${IMAGE_TAG}"
 git push origin main
 
 # Sync HiveBox app with ArgoCD
-argocd app sync hivebox
+# argocd app sync hivebox
