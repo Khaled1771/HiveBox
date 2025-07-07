@@ -15,7 +15,7 @@ set -x  # Show logs in pipeline
 echo "######### Git Operations #########"
 # This shell script for update remote git repo
 git checkout main
-git pull origin main
+git pull --rebase origin main       # Deny any conflicts through pulling
 git add -A
 git commit -m "Update HiveBox's imageTag: ${IMAGE_TAG}" || echo "Nothing to commit"
 git push origin main
