@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: hivebox
-        image: hivebox-img:29
+        image: hivebox-img:30
         imagePullPolicy: Never
         resources:
             requests:
@@ -53,7 +53,7 @@ spec:
 # spec:
 #   containers:
 #   - name: hivebox
-#     image: hivebox-img:29
+#     image: hivebox-img:30
 #     imagePullPolicy: Never
 #     resources:
 #         requests:
