@@ -2,6 +2,8 @@
 
 IMAGE_TAG=$1
 # This shell script for update remote git repo
+git config user.name "Khaled1771"
+git config user.email "khhaledd.77@gmail.com"
 git checkout feature/sensebox-fetch 
 git merge main
 git add Kubernetes/Flask-Deloyment.yaml
