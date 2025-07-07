@@ -97,7 +97,12 @@ pipeline {
 
         stage("GitOps with ArgoCD") {
             steps {
-              sh "bash /mnt/MyData/Courses/Projects/HiveBox/GitOps.sh ${IMAGE_TAG}"  
+              withCredentials([usernamePassword(credentialsId: 'Github', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                    sh """
+                        GIT_USERNAME=${GIT_USERNAME} GIT_PASSWORD=${GIT_PASSWORD} \\
+                        bash /mnt/MyData/Courses/Projects/HiveBox/GitOps.sh ${BUILD_NUMBER}
+                    """
+                }
             }
         }
     }
