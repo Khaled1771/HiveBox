@@ -1,9 +1,26 @@
+version: "3.8"
+
 services:
-  flask:
-    container_name: hivebox
-    build:
-      context: .
-      dockerfile: Dockerfile
+  valkey:
+    image: valkey/valkey:latest
+    container_name: valkey-hivebox
     ports:
-    - "5000:5000"
-      
+      - "6379:6379"
+    networks:
+      - hivebox
+  
+  hivebox:
+    build: .
+    container_name: flask-hivebox
+    ports:
+      - "5000:5000"
+    environment:
+      - SENSEBOX_IDS=5eba5fbad46fb8001b799786,5c21ff8f919bf8001adf2488,5ade1acf223bd80019a1011c
+      - REDIS_HOST=valkey
+    depends_on:
+      - valkey
+    networks:
+      - hivebox
+
+networks:
+  hivebox:

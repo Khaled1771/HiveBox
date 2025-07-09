@@ -4,10 +4,15 @@ import os
 from datetime import datetime, timedelta
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST, Counter
 from flask import Response
+import redis
 
 app = Flask(__name__)
 
 __version__ = "0.0.1"
+
+# Connect to Redis/Valkey contaier
+REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
+redis_client = redis.Redis(host=REDIS_HOST, port=6379)
 
 # 1. Load senseBox IDs from environment variable
 sensebox_ids = os.getenv("SENSEBOX_IDS", "").split(",")
@@ -26,10 +31,15 @@ def version():
     REQUEST_COUNTER.inc()
     return jsonify({"version": __version__})
 
-
+# Update /temperature endpoint to use valkey caching
 @app.route("/temperature")
 def temperature():
     REQUEST_COUNTER.inc()
+
+    cache_key = "temperature_data"
+    cached_data = redis_client.get(cache_key)
+    if cached_data:
+        return Response(cached_data, content_type="application/json")
 
     now = datetime.utcnow()
     cutoff = now - timedelta(hours=1)
@@ -56,8 +66,6 @@ def temperature():
 
     if temps:
         avg_temp = sum(temps) / len(temps)
-
-        # 2. Add temperature status field
         if avg_temp < 10:
             status = "Too Cold"
         elif 11 <= avg_temp <= 36:
@@ -65,14 +73,19 @@ def temperature():
         else:
             status = "Too Hot"
 
-        return jsonify({
+        result = {
             "average_temperature": round(avg_temp, 2),
             "unit": "°C",
             "status": status,
             "sources": len(temps)
-        })
+        }
+
+        # Cache the result for 5 minutes
+        redis_client.setex(cache_key, timedelta(minutes=5), jsonify(result).get_data(as_text=True))
+        return jsonify(result)
     else:
         return jsonify({"error": "No recent temperature data available."}), 404
+
 
 
 # 3. Prometheus metrics endpoint
