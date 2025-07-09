@@ -9,6 +9,7 @@ import threading
 import time
 from minio import Minio
 from minio.error import S3Error
+from io import BytesIO
 
 app = Flask(__name__)
 
@@ -37,16 +38,16 @@ if not minio_client.bucket_exists(MINIO_BUCKET):
 
 # Store file to MinIO
 def save_to_minio(filename: str, data: str):
-    with open(filename, 'w') as f:
-        f.write(data)
+    # Converting stream to JSON
+    data_bytes = BytesIO(data.encode('utf-8'))
 
-    minio_client.fput_object(
-        MINIO_BUCKET,
-        filename,
-        filename,
+    minio_client.put_object(
+        bucket_name=MINIO_BUCKET,
+        object_name=filename,
+        data=data_bytes,
+        length=len(data_bytes.getvalue()),
         content_type="application/json"
     )
-
     print(f"Uploaded {filename} to MinIO bucket '{MINIO_BUCKET}'")
 
 # 1. Load senseBox IDs from environment variable
