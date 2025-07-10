@@ -16,11 +16,11 @@ app = Flask(__name__)
 __version__ = "0.0.1"
 
 # Connect to Redis/Valkey container
-REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
+REDIS_HOST = os.getenv("REDIS_HOST", "valkey-service.default.svc.cluster.local")
 redis_client = redis.Redis(host=REDIS_HOST, port=6379)
 
 # Connect to MinIO Storage
-MINIO_ENDPOINT = os.getenv("MINIO_ENDPOINT", "localhost:9010")
+MINIO_ENDPOINT = os.getenv("MINIO_ENDPOINT", "minio-service.default.svc.cluster.local:9000")
 MINIO_ACCESS_KEY = os.getenv("MINIO_ACCESS_KEY", "minioadmin")
 MINIO_SECRET_KEY = os.getenv("MINIO_SECRET_KEY", "minioadmin")
 MINIO_BUCKET = os.getenv("MINIO_BUCKET", "hivebox-data")
