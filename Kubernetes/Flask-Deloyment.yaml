@@ -5,7 +5,7 @@ metadata:
   labels:
     app: flask-app
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: flask-app
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: hivebox
-        image: hivebox-img:30
+        image: hivebox:cluster
         imagePullPolicy: Never
         resources:
             requests:
@@ -42,26 +42,4 @@ spec:
       targetPort: 5000
       protocol: TCP
   type: ClusterIP
-
-
-# apiVersion: v1
-# kind: Pod
-# metadata:
-#   name: flask-app
-#   labels:
-#     app: flask-app
-# spec:
-#   containers:
-#   - name: hivebox
-#     image: hivebox-img:30
-#     imagePullPolicy: Never
-#     resources:
-#         requests:
-#           memory: "64Mi"
-#           cpu: "250m"
-#         limits:
-#           memory: "128Mi"
-#           cpu: "500m"
-#     ports:
-#       - containerPort: 5000
 
