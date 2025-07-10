@@ -15,7 +15,7 @@ spec:
   #       - grafana.hivebox.com
   #     secretName: hivebox-tls-secret
   rules:
-  - host: www.hivebox.com
+  - host: hivebox.local
     http:
       paths:
       - path: /
@@ -26,24 +26,36 @@ spec:
             port:
               number: 5000 
 
-  - host: prometheus.hivebox.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: prometheus-kube-prometheus-prometheus
-            port:
-              number: 9090
+  # - host: prometheus.hivebox.com
+  #   http:
+  #     paths:
+  #     - path: /
+  #       pathType: Prefix
+  #       backend:
+  #         service:
+  #           name: prometheus-kube-prometheus-prometheus
+  #           port:
+  #             number: 9090
 
-  - host: grafana.hivebox.com
+  # - host: grafana.hivebox.com
+  #   http:
+  #     paths:
+  #     - path: /
+  #       pathType: Prefix
+  #       backend:
+  #         service:
+  #           name: grafana
+  #           port:
+  #             number: 80
+
+  - host: minio.local
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: grafana
+            name: minio-service
             port:
-              number: 80
+              number: 9001
+
