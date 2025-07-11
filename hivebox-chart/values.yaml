@@ -1,7 +1,7 @@
 replicaCount: 1
 
-app:
-  label: flask-app
+labels:
+  app: flask-app
 
 deployment:
   name: hivebox-deployment
@@ -33,24 +33,34 @@ serviceAccount:
   name: ""
 
 ingress:
-  enabled: true  # أو true لو عايز تستخدم Ingress
+  enabled: true  
   className: "nginx"
   annotations: {
      prometheus.io/scrape: "true",      # Enable Prometheus scraping
      prometheus.io/port: "PORT",        # Replace with actual port
-     prometheus.io/path: "/metrics"    # Path to scrape metrics 
+     prometheus.io/path: "/metrics"     # Path to scrape metrics 
   }
   hosts:
     - host: hivebox.local
       http:
       paths:
-        - path: /
-          pathType: Prefix
-          backend: 
-            service: 
-              name: hivebox-service
-              port: 5000
+      - path: /
+        pathType: Prefix
+        backend: 
+          service: 
+            name: hivebox-service
+            port: 5000
 
+    - host: minio.local
+      http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: minio-release-minio-service
+            port:
+              number: 9001
   tls: []
 
 autoscaling:
