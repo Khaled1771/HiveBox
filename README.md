@@ -27,12 +27,6 @@ The project aims to cover the whole Software Development Life Cycle (SDLC). That
 
 DevOps end-to-end hands-on project, we will utilize the technology and open-source software to build an API to track the environmental sensor data from openSenseMap, a platform for open sensor data in which everyone can participate.
 
-<p align="center">
-  <a href="https://devopsroadmap.io/projects/hivebox/" imageanchor="1">
-    <img width="90%" src="https://devopsroadmap.io/assets/images/hivebox-architecture-a7fe504c22027e87b6f7b188cd57d2d8.png" />
-  </a><br/>
-</p>
-
 ### Note!
 I used Jenkins as a Continuous Integration & Continuous Deplymment tool for (CI/CD Pipelines), instead of Github Actions!
 
@@ -44,6 +38,11 @@ I used Jenkins as a Continuous Integration & Continuous Deplymment tool for (CI/
 <p align="center">
   <a href="https://devopsroadmap.io/projects/hivebox/" imageanchor="1">
     <img width="90%" src="https://devopsroadmap.io/assets/images/module-01-overview-e3d852c2bde8272515f2c444221cdbfd.png" />
+  </a><br/>
+</p>
+<p align="center">
+  <a href="https://devopsroadmap.io/projects/hivebox/" imageanchor="1">
+    <img width="90%" src="https://devopsroadmap.io/assets/images/hivebox-architecture-phase-01-d6d6c38343a1da0391c5cd6705ec2051.png" />
   </a><br/>
 </p>
 
@@ -60,6 +59,11 @@ I used Jenkins as a Continuous Integration & Continuous Deplymment tool for (CI/
 <p align="center">
   <a href="https://devopsroadmap.io/projects/hivebox/" imageanchor="1">
     <img width="90%" src="https://devopsroadmap.io/assets/images/module-02-overview-22e040ce248a0b72495dbc2cea9f6986.png" />
+  </a><br/>
+</p>
+<p align="center">
+  <a href="https://devopsroadmap.io/projects/hivebox/" imageanchor="1">
+    <img width="90%" src="https://devopsroadmap.io/assets/images/hivebox-architecture-phase-02-7a31715c4e08bae9a4b9c43d6a8d6127.png" />
   </a><br/>
 </p>
 
@@ -85,6 +89,11 @@ HiveBox App Version: v0.0.1
 <p align="center">
   <a href="https://devopsroadmap.io/projects/hivebox/" imageanchor="1">
     <img width="90%" src="https://devopsroadmap.io/assets/images/module-03-overview-3269b01a0471696a3a1e5a86b4c03a4f.png" />
+  </a><br/>
+</p>
+<p align="center">
+  <a href="https://devopsroadmap.io/projects/hivebox/" imageanchor="1">
+    <img width="90%" src="https://devopsroadmap.io/assets/images/hivebox-architecture-phase-03-f62020476900f5db5a97f27e43e9ab8b.png" />
   </a><br/>
 </p>
 
@@ -124,6 +133,11 @@ http://localhost:5000/temperature
 <p align="center">
   <a href="https://devopsroadmap.io/projects/hivebox/" imageanchor="1">
     <img width="90%" src="https://devopsroadmap.io/assets/images/module-04-overview-b8303bb10b6f537c8c8a00d5aa73f1cc.png" />
+  </a><br/>
+</p>
+<p align="center">
+  <a href="https://devopsroadmap.io/projects/hivebox/" imageanchor="1">
+    <img width="90%" src="https://devopsroadmap.io/assets/images/hivebox-architecture-phase-04-9f5eecf3d87c6915d1f8245602c8f8d5.png" />
   </a><br/>
 </p>
 
@@ -176,3 +190,41 @@ If you want to secure your app with HTTPS protocol, just generate SSL Key and as
 - I will use it later, now just testing my flask app! 
 
 ---
+
+### Phase 5: Transform - Finishing the Structure
+
+<p align="center">
+  <a href="https://devopsroadmap.io/projects/hivebox/" imageanchor="1">
+    <img width="90%" src="https://devopsroadmap.io/assets/images/module-05-overview-3096b5b6b7dcdc77392783dfc422c19b.png" />
+  </a><br/>
+</p>
+
+<p align="center">
+  <a href="https://devopsroadmap.io/projects/hivebox/" imageanchor="1">
+    <img width="90%" src="https://devopsroadmap.io/assets/images/hivebox-architecture-phase-05-e85d6c80f272c06dbf55e3a682a4341e.png" />
+  </a><br/>
+</p>
+
+### 5.1 Tools
+- Kind Cluster
+- Kubectl
+
+### 5.2 Code
+- Implement the code requirements.
+#### Requirements:
+#### Store:
+- Endpoint: /store
+- Parameters: No parameters.
+- By default, the application will store the data every 5 minutes, but by calling this endpoint, it should store it directly on MinIO.
+#### Readyz:
+- Endpoint: /readyz
+- Parameters: No parameters.
+- Returns HTTP 200 unless:
+  - 50% + 1 of the configured senseBoxes are not accessible.
+  - AND caching content is older than 5 minutes.
+
+### 5.3 Containers
+- Create a Helm chart for the application
+- Create Kustomize manifests for the infrastructure resources like Valkey
+- Review Kubernetes Security Best Practices
+- Configure the Kubernetes app manifest to use /readyz as a readiness probe.
