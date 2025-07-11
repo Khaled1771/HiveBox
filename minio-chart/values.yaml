@@ -1,0 +1,13 @@
+replicaCount: 1
+
+image:
+  repository: minio/minio
+  tag: latest
+  pullPolicy: Never
+
+minio:
+  rootUser: minioadmin
+  rootPassword: minioadmin
+
+persistence:
+  size: 5Gi
