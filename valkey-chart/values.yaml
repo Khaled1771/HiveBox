@@ -12,8 +12,10 @@ service:
 
 persistence:
   enabled: true
+  # storageClass: gp2
+  accessMode: ReadWriteOnce
   size: 1Gi
-
+  
 labels:
   app: valkey
 
