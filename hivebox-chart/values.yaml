@@ -61,7 +61,6 @@ ingress:
             name: minio-release-minio-service
             port:
               number: 9001
-  tls: []
 
 autoscaling:
   enabled: false
