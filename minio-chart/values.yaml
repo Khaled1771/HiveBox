@@ -11,3 +11,10 @@ minio:
 
 persistence:
   size: 5Gi
+
+labels:
+  app: minio
+
+deployment:
+  name: minio
+
