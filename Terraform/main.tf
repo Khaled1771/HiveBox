@@ -2,6 +2,33 @@ provider "aws" {
   region = var.region
 }
 
+provider "kubernetes" {
+  host                   = aws_eks_cluster.k8s.endpoint
+  cluster_ca_certificate = base64decode(aws_eks_cluster.k8s.certificate_authority[0].data)
+  token                  = data.aws_eks_cluster_auth.k8s.token
+}
+
+terraform {
+  required_providers {
+    helm = {
+      source  = "hashicorp/helm"
+      version = ">= 2.4.1"
+    }
+  }
+}
+
+data "aws_eks_cluster_auth" "k8s" {
+  name = aws_eks_cluster.k8s.name
+}
+
+provider "helm" {
+  kubernetes = {
+    host                   = aws_eks_cluster.k8s.endpoint
+    cluster_ca_certificate = base64decode(aws_eks_cluster.k8s.certificate_authority[0].data)
+    token                  = data.aws_eks_cluster_auth.k8s.token
+  }
+}
+
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
 }
@@ -96,12 +123,12 @@ resource "aws_eks_node_group" "node_group" {
   ]
 
   scaling_config {
-    desired_size = 1
-    max_size     = 1
-    min_size     = 1
+    desired_size = 2
+    max_size     = 3
+    min_size     = 2
   }
 
-  instance_types = ["t3.micro"]
+  instance_types = ["t3.small"]
 }
 
 resource "aws_internet_gateway" "igw" {
@@ -127,3 +154,63 @@ resource "aws_route_table_association" "subnet2_rt" {
   route_table_id = aws_route_table.public_rt.id
 }
 
+resource "aws_iam_role" "ebs_csi_driver_role" {
+  name = "AmazonEKS_EBS_CSI_DriverRole"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Effect = "Allow",
+      Principal = {
+        Service = "ec2.amazonaws.com"
+      },
+      Action = "sts:AssumeRole"
+    }]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ebs_csi_driver_policy" {
+  role       = aws_iam_role.ebs_csi_driver_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+}
+
+resource "kubernetes_service_account" "ebs_csi_sa" {
+  metadata {
+    name      = "ebs-csi-controller-sa"
+    namespace = "kube-system"
+    annotations = {
+      "eks.amazonaws.com/role-arn" = aws_iam_role.ebs_csi_driver_role.arn
+    }
+  }
+}
+
+resource "helm_release" "ebs_csi_driver" {
+  name       = "aws-ebs-csi-driver"
+  repository = "https://kubernetes-sigs.github.io/aws-ebs-csi-driver"
+  chart      = "aws-ebs-csi-driver"
+  namespace  = "kube-system"
+
+  values = [
+  <<EOF
+    controller:
+      serviceAccount:
+        create: false
+        name: ${kubernetes_service_account.ebs_csi_sa.metadata[0].name}
+  EOF
+  ]
+
+
+  depends_on = [
+    kubernetes_service_account.ebs_csi_sa,
+    aws_iam_role_policy_attachment.ebs_csi_driver_policy
+  ]
+}
+
+# resource "kubernetes_storage_class" "gp2" {
+#   metadata {
+#     name = "gp2"
+#   }
+
+#   storage_provisioner = "ebs.csi.aws.com"
+#   volume_binding_mode = "WaitForFirstConsumer"
+# }
