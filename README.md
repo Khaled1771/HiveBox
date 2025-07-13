@@ -224,7 +224,7 @@ If you want to secure your app with HTTPS protocol, just generate SSL Key and as
   - AND caching content is older than 5 minutes.
 
 ### 5.3 Containers
-- Create a Helm chart for the application
-- Create Kustomize manifests for the infrastructure resources like Valkey
+- Helm chart for the application
+- Kustomize manifests for the infrastructure resources like Valkey
 - Review Kubernetes Security Best Practices
 - Configure the Kubernetes app manifest to use /readyz as a readiness probe.
