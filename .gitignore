@@ -4,3 +4,4 @@ Terraform/.terraform.lock.hcl
 Terraform/.terraform/
 Terraform/terraform.tfstate
 Terraform/terraform.tfstate.backup
+.pytest_cache
