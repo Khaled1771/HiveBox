@@ -47,7 +47,7 @@ def save_to_minio(filename: str, data: str):
         length=len(data.encode('utf-8')),
         content_type="application/json"
     )
-    print(f"✅ Uploaded {filename} to MinIO bucket '{MINIO_BUCKET}'")
+    print(f"Uploaded {filename} to MinIO bucket '{MINIO_BUCKET}'")
 
 # 1. Load senseBox IDs from environment variable
 sensebox_ids = os.getenv("SENSEBOX_IDS", "").split(",")
