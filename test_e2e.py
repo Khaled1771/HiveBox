@@ -9,7 +9,7 @@ def test_end_to_end_temperature_store():
     base_url = f"http://{ip}:5000"
     # minio_endpoint = os.getenv("MINIO_ENDPOINT", "localhost:9010").replace("http://", "").replace("https://", "") # For Kubernetes
     minio_host = os.getenv("MINIO_HOST", "localhost")
-    minio_port = os.getenv("MINIO_PORT", "9000")
+    minio_port = os.getenv("MINIO_PORT", "9010")
     minio_endpoint = f"{minio_host}:{minio_port}"
     minio_client = Minio(
         minio_endpoint,
