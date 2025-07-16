@@ -28,8 +28,9 @@ MINIO_ACCESS_KEY = os.getenv("MINIO_ACCESS_KEY", "minioadmin")
 MINIO_SECRET_KEY = os.getenv("MINIO_SECRET_KEY", "minioadmin")
 MINIO_BUCKET = os.getenv("MINIO_BUCKET", "hivebox-data")
 
+
 minio_client = Minio(
-    MINIO_ENDPOINT,
+    f"{MINIO_ENDPOINT}:{MINIO_PORT}",
     access_key=MINIO_ACCESS_KEY,
     secret_key=MINIO_SECRET_KEY,
     secure=False
