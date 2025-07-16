@@ -56,7 +56,7 @@ pipeline {
                         // Get Redis-valkey'IP address for HiveBox app 
                         def valkeyIp = sh(script: "docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' valkey-hivebox", returnStdout: true).trim()
                         // Run HiveBox Container with a specific env vars.
-                        sh "docker run -d --name ${CONTAINER_NAME} -p 5000:5000 -e MINIO_ENDPOINT=${minioIp} -e REDIS_HOST=${valkeyIp} ${IMAGE_NAME}:${BUILD_NUMBER}"
+                        sh "docker run -d --name ${CONTAINER_NAME} -p 5000:5000 -e MINIO_ENDPOINT=${minioIp}:9010 -e REDIS_HOST=${valkeyIp} ${IMAGE_NAME}:${BUILD_NUMBER}"
                     } else {
                         echo "Hadolint found issues in Dockerfile"
                     }
