@@ -7,7 +7,8 @@ def test_end_to_end_temperature_store():
     # Setup
     ip = os.getenv("HIVEBOX_IP", "localhost")
     base_url = f"http://{ip}:5000"
-    minio_endpoint = os.getenv("MINIO_ENDPOINT", "localhost:9000").replace("http://", "").replace("https://", "")
+    # minio_endpoint = os.getenv("MINIO_ENDPOINT", "localhost:9010").replace("http://", "").replace("https://", "") # For Kubernetes
+    minio_endpoint = os.getenv("MINIO_ENDPOINT", "localhost:9010").replace("http://", "").replace("https://", "")
     minio_client = Minio(
         minio_endpoint,
         access_key=os.getenv("MINIO_ACCESS_KEY", "minioadmin"),

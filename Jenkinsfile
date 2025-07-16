@@ -71,6 +71,18 @@ pipeline {
             }
         }
 
+        stage("E2E Testing") {
+            steps {
+               script {
+                    def hivebox_ip = sh(script: "docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${CONTAINER_NAME}", returnStdout: true).trim()
+                    sh """
+                        . venv/bin/activate
+                        HIVEBOX_IP=$hivebox_ip pytest test_e2e.py -v
+                    """
+                }
+            }
+        }
+
         // stage("SonarCloud Analysis") {
         //     steps {
         //         withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
