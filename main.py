@@ -22,7 +22,7 @@ redis_client = redis.Redis(host=REDIS_HOST, port=6379)
 
 # Connect to MinIO Storage
 # MINIO_ENDPOINT = os.getenv("MINIO_ENDPOINT", "minio-release-minio-service.default.svc.cluster.local:9000")    # For Kubernetes
-MINIO_ENDPOINT = os.getenv("MINIO_ENDPOINT", "localhost:9010")
+MINIO_ENDPOINT = os.getenv("MINIO_ENDPOINT", "localhost")
 MINIO_ACCESS_KEY = os.getenv("MINIO_ACCESS_KEY", "minioadmin")
 MINIO_SECRET_KEY = os.getenv("MINIO_SECRET_KEY", "minioadmin")
 MINIO_BUCKET = os.getenv("MINIO_BUCKET", "hivebox-data")
