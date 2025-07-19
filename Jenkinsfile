@@ -36,14 +36,6 @@ pipeline {
             }
         }
 
-        stage("Unit Testing") {
-            steps {
-                sh '''
-                    venv/bin/python -m pytest test_app.py
-                '''
-            }
-        }
-
         stage("Hadolint Docker") {
             steps {
                 script {
@@ -83,6 +75,21 @@ pipeline {
             }
         }
 
+        stage("Unit Testing") {
+            steps {
+                def podName = sh(
+                        script: "kubectl get pods -l app=flask-app -o jsonpath='{.items[0].metadata.name}'",
+                        returnStdout: true
+                    ).trim()
+                    sh """
+                       kubectl exec -i ${podName} -- /bin/sh -c '
+                            . venv/bin/activate && \
+                            pytest test_app.py
+                        '
+                    """
+            }
+        }
+
         stage("Integration Testing") {
             steps {
                script {
@@ -93,9 +100,15 @@ pipeline {
                         HIVEBOX_IP=$hivebox_ip pytest test_integration.py
                     """
                     */
+                    def podName = sh(
+                        script: "kubectl get pods -l app=flask-app -o jsonpath='{.items[0].metadata.name}'",
+                        returnStdout: true
+                    ).trim()
                     sh """
-                        . venv/bin/activate
-                        pytest test_integration.py
+                       kubectl exec -i ${podName} -- /bin/sh -c '
+                            . venv/bin/activate && \
+                            pytest test_integration.py
+                        '
                     """
                 }
             }
@@ -119,7 +132,7 @@ pipeline {
                     sh """
                        kubectl exec -i ${podName} -- /bin/sh -c '
                             . venv/bin/activate && \
-                            pytest test_e2e.py
+                            pytest test_e2e.py -v
                         '
                     """
                 }
