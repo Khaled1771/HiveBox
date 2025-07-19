@@ -6,11 +6,11 @@ from minio import Minio
 def test_end_to_end_temperature_store():
     # Setup
     ip = os.getenv("HIVEBOX_IP", "localhost")
-    base_url = f"http://{ip}:5000"
+    base_url = f"http://hivebox.local"     # inside Kubernetes
     # minio_endpoint = os.getenv("MINIO_ENDPOINT", "localhost:9010").replace("http://", "").replace("https://", "") # For Kubernetes
-    minio_host = os.getenv("MINIO_HOST", "localhost")
-    minio_port = os.getenv("MINIO_PORT", "9010")
-    minio_endpoint = f"{minio_host}:{minio_port}"
+    # minio_host = os.getenv("MINIO_HOST", "localhost")
+    # minio_port = os.getenv("MINIO_PORT", "9010")
+    minio_endpoint = f"minio-release-minio-service.default.svc.cluster.local:9000"
     minio_client = Minio(
         minio_endpoint,
         access_key=os.getenv("MINIO_ACCESS_KEY", "minioadmin"),

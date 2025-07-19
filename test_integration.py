@@ -8,7 +8,7 @@ def test_temperature_endpoint_integration():
         HIVEBOX_IP=172.17.0.3 pytest test_integration.py
     """
     ip = os.environ.get("HIVEBOX_IP", "localhost")
-    url = f"http://{ip}:5000/temperature"
+    url = f"http://hivebox.local/temperature"
 
     response = requests.get(url)
     assert response.status_code in [200, 404]
