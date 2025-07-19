@@ -12,7 +12,7 @@ container:
 
 image:
   repository: hivebox   #hivebox-img
-  tag: "cluster"           #BUILD_NUMBER -> 30
+  tag: "43"
   pullPolicy: Never
 
 resources:
