@@ -70,7 +70,11 @@ pipeline {
         stage("Helm Upgrade") {
             steps {
                 script {
-                    sh "helm upgrade hivebox-release /mnt/MyData/Courses/Projects/HiveBox/Hivebox-chart"
+                    withCredentials([file(credentialsId: 'kubeconfig-hivebox', variable: 'KUBECONFIG')]) {
+                        sh '''
+                            helm upgrade hivebox-release /mnt/MyData/Courses/Projects/HiveBox/Hivebox-chart --kubeconfig $KUBECONFIG
+                        '''
+                    }
                 }
             }
         }
