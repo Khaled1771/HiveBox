@@ -77,7 +77,8 @@ pipeline {
 
         stage("Unit Testing") {
             steps {
-                def podName = sh(
+                script {
+                    def podName = sh(
                         script: "kubectl get pods -l app=flask-app -o jsonpath='{.items[0].metadata.name}'",
                         returnStdout: true
                     ).trim()
@@ -87,6 +88,7 @@ pipeline {
                             pytest test_app.py
                         '
                     """
+                }
             }
         }
 
