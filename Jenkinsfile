@@ -62,7 +62,7 @@ pipeline {
             steps {
                 script {
                     def hivebox_image_id = sh(script: "docker exec kind-control-plane crictl images | grep hivebox-img | awk '{print \$3}'", returnStdout: true).trim()    // Show the image's ID to delete it
-                    sh "ansible-playbook Ansible/Update-Kubernetes.yaml --extra-vars 'oldImageID=$hivebox_image_id image_name=${IMAGE_NAME} image_tag=${IMAGE_TAG} manifest_file=/mnt/MyData/Courses/Projects/HiveBox/HiveBox-chart/values.yaml'"     // Enjoy with automation using Ansible 
+                    sh "ansible-playbook Ansible/Update-Kubernetes.yaml --extra-vars 'oldImageID=$hivebox_image_id image_name=${IMAGE_NAME} image_tag=${IMAGE_TAG} manifest_file=/mnt/MyData/Courses/Projects/HiveBox/Hivebox-chart/values.yaml'"     // Enjoy with automation using Ansible 
                 }
             }
         }
@@ -70,7 +70,7 @@ pipeline {
         stage("Helm Upgrade") {
             steps {
                 script {
-                    sh "helm upgrade hivebox-release /mnt/MyData/Courses/Projects/HiveBox/HiveBox-chart"
+                    sh "helm upgrade hivebox-release /mnt/MyData/Courses/Projects/HiveBox/Hivebox-chart"
                 }
             }
         }
