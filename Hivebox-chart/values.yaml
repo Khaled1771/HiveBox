@@ -12,7 +12,7 @@ container:
 
 image:
   repository: hivebox   #hivebox-img
-  tag: "43"
+  tag: "44"
   pullPolicy: Never
 
 resources:
