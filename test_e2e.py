@@ -4,6 +4,13 @@ import time
 from minio import Minio
 
 def test_end_to_end_temperature_store():
+    """
+    This test assumes the Flask app is running and the IP is passed via environment variable.
+    Example:
+        HIVEBOX_IP=172.17.0.3 pytest test_integration.py
+    
+    Test on Kubernetes testing namespace
+    """
     # Setup
     base_url = os.getenv("HIVEBOX_URL", "http://hivebox-service")
     minio_endpoint = os.getenv("MINIO_ENDPOINT", "minio-release-minio-service.default.svc.cluster.local:9000")
