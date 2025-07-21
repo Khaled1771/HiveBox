@@ -52,7 +52,7 @@ pipeline {
                         sh "docker run -d --name ${CONTAINER_NAME} -p 5000:5000 -e MINIO_ENDPOINT=${minioIp} -e REDIS_HOST=${valkeyIp} ${IMAGE_NAME}:${BUILD_NUMBER}"
                         */
                     } else {
-                        echo "Hadolint found issues in Dockerfile"
+                        error "Hadolint found issues in Dockerfile. Failing the pipeline."
                     }
                 }
             }
