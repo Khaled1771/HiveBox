@@ -1,6 +1,7 @@
 FROM python:3.12-slim
 # Install Curl
-RUN apt update && apt install curl -y
+RUN apt-get install --no-install-recommends -y curl=7.88.1-10+deb12u2 && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /HiveBox
 COPY requirements.txt .
