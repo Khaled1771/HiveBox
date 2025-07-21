@@ -97,18 +97,24 @@ pipeline {
 
         stage("Integration Testing") {
             steps {
-                withCredentials([file(credentialsId: 'kubeconfig-hivebox', variable: 'KUBECONFIG')]) {
-                    script {
-                        def pod_name = sh(script: "kubectl get pods -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
-                        sh """
-                        kubectl exec -i $pod_name --kubeconfig $KUBECONFIG -- /bin/sh -c '
-                            . venv/bin/activate && \
-                            pytest test_integration.py
-                        '
-                        """
-                    }
-                }
+        withCredentials([file(credentialsId: 'kubeconfig-hivebox', variable: 'KUBECONFIG')]) {
+            script {
+                def pod_name = sh(script: "kubectl get pods -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
+
+                // Readiness inside the Pod, Waiting 10 Sec.
+                sh """
+                kubectl exec -i $pod_name --kubeconfig $KUBECONFIG -- /bin/sh -c '
+                    echo "Waiting for app to be ready..." && \
+                    for i in \$(seq 1 10); do
+                        curl http://localhost:5000/temperature && break || echo "Waiting..." && sleep 3
+                    done && \
+                    . venv/bin/activate && \
+                    pytest test_integration.py
+                '
+                """
             }
+        }
+    }
             //    script {
             //         /* <<<<    Integration Testing with Docker containers    >>>>
             //         def hivebox_ip = sh(script: "docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${CONTAINER_NAME}", returnStdout: true).trim()

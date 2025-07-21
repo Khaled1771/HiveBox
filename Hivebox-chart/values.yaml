@@ -12,15 +12,15 @@ container:
 
 image:
   repository: hivebox-img
-  tag: "48"
+  tag: "49"
   pullPolicy: Never
 
 resources:
   requests:
-    memory: "64Mi"
+    memory: "256Mi"
     cpu: "250m"
   limits:
-    memory: "128Mi"
+    memory: "512Mi"
     cpu: "500m"
 
 service:
