@@ -11,8 +11,8 @@ container:
   port: 5000
 
 image:
-  repository: hivebox   #hivebox-img
-  tag: "44"
+  repository: hivebox-img
+  tag: "46"
   pullPolicy: Never
 
 resources:
