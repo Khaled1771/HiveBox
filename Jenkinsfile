@@ -81,48 +81,59 @@ pipeline {
 
         stage("Unit Testing") {
             steps {
-                script {
-                    def podName = sh(
-                        script: "kubectl get pods -l app=flask-app -o jsonpath='{.items[0].metadata.name}'",
-                        returnStdout: true
-                    ).trim()
-                    sh """
-                       kubectl exec -i ${podName} -- /bin/sh -c '
+                withCredentials([file(credentialsId: 'kubeconfig-hivebox', variable: 'KUBECONFIG')]) {
+                    script {
+                        def pod_name = sh(script: "kubectl get pods -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
+                        sh """
+                        kubectl exec -i $pod_name --kubeconfig $KUBECONFIG -- /bin/sh -c '
                             . venv/bin/activate && \
                             pytest test_app.py
                         '
-                    """
+                        """
+                    }
                 }
             }
         }
 
         stage("Integration Testing") {
             steps {
-               script {
-                    /* <<<<    Integration Testing with Docker containers    >>>>
-                    def hivebox_ip = sh(script: "docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${CONTAINER_NAME}", returnStdout: true).trim()
-                    sh """
-                        . venv/bin/activate
-                        HIVEBOX_IP=$hivebox_ip pytest test_integration.py
-                    """
-                    */
-                    def podName = sh(
-                        script: "kubectl get pods -l app=flask-app -o jsonpath='{.items[0].metadata.name}'",
-                        returnStdout: true
-                    ).trim()
-                    sh """
-                       kubectl exec -i ${podName} -- /bin/sh -c '
+                withCredentials([file(credentialsId: 'kubeconfig-hivebox', variable: 'KUBECONFIG')]) {
+                    script {
+                        def pod_name = sh(script: "kubectl get pods -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
+                        sh """
+                        kubectl exec -i $pod_name --kubeconfig $KUBECONFIG -- /bin/sh -c '
                             . venv/bin/activate && \
                             pytest test_integration.py
                         '
-                    """
+                        """
+                    }
                 }
             }
+            //    script {
+            //         /* <<<<    Integration Testing with Docker containers    >>>>
+            //         def hivebox_ip = sh(script: "docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${CONTAINER_NAME}", returnStdout: true).trim()
+            //         sh """
+            //             . venv/bin/activate
+            //             HIVEBOX_IP=$hivebox_ip pytest test_integration.py
+            //         """
+            //         */
+            //     }
         }
 
         stage("E2E Testing") {
             steps {
-               script {
+                withCredentials([file(credentialsId: 'kubeconfig-hivebox', variable: 'KUBECONFIG')]) {
+                    script {
+                        def pod_name = sh(script: "kubectl get pods -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
+                        sh """
+                        kubectl exec -i $pod_name --kubeconfig $KUBECONFIG -- /bin/sh -c '
+                            . venv/bin/activate && \
+                            pytest test_e2e.py -v
+                        '
+                        """
+                    }
+                }
+            }
                     /* <<<<    E2E Testing with Docker containers    >>>>
                     def hivebox_ip = sh(script: "docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${CONTAINER_NAME}", returnStdout: true).trim()
                     sh """
@@ -131,18 +142,7 @@ pipeline {
                     """
                     */
                     // Kuberntes Deployment via Helm
-                    def podName = sh(
-                        script: "kubectl get pods -l app=flask-app -o jsonpath='{.items[0].metadata.name}'",
-                        returnStdout: true
-                    ).trim()
-                    sh """
-                       kubectl exec -i ${podName} -- /bin/sh -c '
-                            . venv/bin/activate && \
-                            pytest test_e2e.py -v
-                        '
-                    """
-                }
-            }
+            
         }
 
         // stage("SonarCloud Analysis") {
