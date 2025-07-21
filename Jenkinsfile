@@ -103,14 +103,13 @@ pipeline {
 
                 // Readiness inside the Pod, Waiting 10 Sec.
                 sh """
-                kubectl exec -i $pod_name --kubeconfig $KUBECONFIG -- /bin/sh -c '
-                    echo "Waiting for app to be ready..." && \
-                    for i in \$(seq 1 10); do
-                        curl http://localhost:5000/temperature && break || echo "Waiting..." && sleep 3
-                    done && \
-                    . venv/bin/activate && \
-                    pytest test_integration.py
-                '
+                    echo "Waiting for pod to be ready..."
+                    kubectl wait --for=condition=ready pod/$pod_name --timeout=60s --kubeconfig $KUBECONFIG
+
+                    kubectl exec -i $pod_name --kubeconfig $KUBECONFIG -- /bin/sh -c '
+                        . venv/bin/activate && \
+                        pytest test_integration.py
+                    '
                 """
             }
         }
