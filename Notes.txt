@@ -30,6 +30,6 @@ EKS Notes:
     kubectl config use-context kind-kind
     
 -------
-Testing Environment:
-1. The communications bewteen docker containers (HiveBox, MinIO, Redis) are complicated without creating a network includes that 3 containers.
-2. So Kubernetes namespace "Testing NameSpace" is the most effiecient way to do that, Communicate through k8s services "ClusterIP".
+Production Environment:
+-- Plan to deploy the app release on Kubernetes Production environment via ArgoCD --
+-- Using GitOps with ArgoCD with Helm as deployment way instead of plain manifests --
