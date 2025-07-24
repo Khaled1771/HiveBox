@@ -33,3 +33,16 @@ EKS Notes:
 Production Environment:
 -- Plan to deploy the app release on Kubernetes Production environment via ArgoCD --
 -- Using GitOps with ArgoCD with Helm as deployment way instead of plain manifests --
+
+-------
+ArgoCD namespace deletion:
+1. describe the argocd namespace
+    kubectl get namespace argocd -o json | jq '.spec'
+2. Extract the json file
+    kubectl get namespace argocd -o json > argocd-ns.json
+3. Delete the "finalizers" section
+    "spec": {
+        "finalizers": ["kubernetes"]
+    }
+4. Update the cluster with json file
+    kubectl replace --raw "/api/v1/namespaces/argocd/finalize" -f ./argocd-ns.json
