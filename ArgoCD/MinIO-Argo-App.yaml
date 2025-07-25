@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/Khaled1771/HiveBox.git'
-    path: MinIO-chart
+    path: Minio-chart
     targetRevision: main
     helm:
       releaseName: minio-release
