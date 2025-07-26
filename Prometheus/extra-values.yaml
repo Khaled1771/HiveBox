@@ -1,0 +1,5 @@
+prometheus:
+  prometheusSpec:
+    additionalScrapeConfigs:
+      name: prometheus-extra-scrape-config
+      key: extra-scrape-configs.yaml
