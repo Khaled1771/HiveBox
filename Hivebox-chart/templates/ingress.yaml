@@ -32,3 +32,25 @@ spec:
                 name: minio-release-minio-service
                 port:
                   number: 9001
+
+    - host: prometheus.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: prometheus-kube-prometheus-prometheus
+                port:
+                  number: 9090
+
+    - host: grafana.ecopowerhub.com
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: grafana
+              port:
+                number: 80
