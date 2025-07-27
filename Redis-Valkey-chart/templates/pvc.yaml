@@ -9,5 +9,6 @@ spec:
   resources:
     requests:
       storage: {{ .Values.persistence.size }}
-  storageClassName: {{ .Values.persistence.storageClass }}
+  #storageClassName: {{ .Values.persistence.storageClass }}     # Locally
+  storageClassName: gp2     # AWS-EKS 
 {{- end }}
