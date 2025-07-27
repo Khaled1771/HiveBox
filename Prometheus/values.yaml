@@ -1,0 +1,8 @@
+prometheus:
+  prometheusSpec:
+    additionalScrapeConfigs:
+    - job_name: 'HiveBox App'
+      static_configs:
+      - targets: ['hivebox-service.default.svc.cluster.local:5000']
+      metrics_path: /metrics
+      scrape_interval: 30s
