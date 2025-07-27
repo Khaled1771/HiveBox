@@ -4,5 +4,6 @@ Terraform/.terraform.lock.hcl
 Terraform/.terraform/
 Terraform/terraform.tfstate
 Terraform/terraform.tfstate.backup
+Terraform/.terraform.tfstate.lock.info
 .pytest_cache
 kubeconfig
