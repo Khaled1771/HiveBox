@@ -36,21 +36,6 @@ pipeline {
             }
         }
 
-        stage("SonarCloud Analysis") {
-            steps {
-                withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
-                    
-                        // curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
-                        // unzip -q sonar-scanner.zip
-                                    
-                    // sh "export PATH=/sonar-scanner-5.0.1.3006-linux/bin:$PATH"
-                    // sh "sonar-scanner -Dsonar.login=$SONAR_TOKEN"
-                    sh "venv/bin/python -m pytest --cov=. --cov-report=xml"      // Quality Gate in process, need integration tests
-                    sh "/opt/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner -Dsonar.login=$SONAR_TOKEN"
-                }
-            }
-        }
-
         stage("Hadolint Docker") {
             steps {
                 script {
@@ -90,6 +75,21 @@ pipeline {
                             helm upgrade --install hivebox-release /mnt/MyData/Courses/Projects/HiveBox/Hivebox-chart --kubeconfig $KUBECONFIG
                         '''
                     }
+                }
+            }
+        }
+
+        stage("SonarCloud Analysis") {
+            steps {
+                withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+                    
+                        // curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+                        // unzip -q sonar-scanner.zip
+                                    
+                    // sh "export PATH=/sonar-scanner-5.0.1.3006-linux/bin:$PATH"
+                    // sh "sonar-scanner -Dsonar.login=$SONAR_TOKEN"
+                    sh "venv/bin/python -m pytest --cov=. --cov-report=xml"      // Quality Gate in process, need integration tests
+                    sh "/opt/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner -Dsonar.login=$SONAR_TOKEN"
                 }
             }
         }
