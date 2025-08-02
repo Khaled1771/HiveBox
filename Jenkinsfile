@@ -91,7 +91,7 @@ pipeline {
                 ]) {
                     script {
                         def pod_name = sh(script: "kubectl get pods -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
-                        
+                        sh "kubectl cp /opt/sonar-scanner-5.0.1.3006-linux $pod_name:/opt/ -n testing --kubeconfig $KUBECONFIG"     // Copy Sonar-Scanner tool -> HiveBox Pod
                         sh """
                         kubectl exec -i $pod_name --kubeconfig $KUBECONFIG -- /bin/sh -c '
                             export SONAR_TOKEN=${SONAR_TOKEN} && \
