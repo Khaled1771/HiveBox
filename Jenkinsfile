@@ -79,20 +79,32 @@ pipeline {
             }
         }
 
-        stage("SonarCloud Analysis") {
-            steps {
-                withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
-                    
-                        // curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
-                        // unzip -q sonar-scanner.zip
-                                    
+                    // curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+                    // unzip -q sonar-scanner.zip            
                     // sh "export PATH=/sonar-scanner-5.0.1.3006-linux/bin:$PATH"
                     // sh "sonar-scanner -Dsonar.login=$SONAR_TOKEN"
-                    sh "venv/bin/python -m pytest --cov=. --cov-report=xml"      // Quality Gate in process, need integration tests
-                    sh "/opt/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner -Dsonar.login=$SONAR_TOKEN"
+        stage("SonarCloud Analysis") {
+            steps {
+                withCredentials([
+                    file(credentialsId: 'kubeconfig-hivebox', variable: 'KUBECONFIG'),
+                    string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')
+                ]) {
+                    script {
+                        def pod_name = sh(script: "kubectl get pods -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
+                        
+                        sh """
+                        kubectl exec -i $pod_name --kubeconfig $KUBECONFIG -- /bin/sh -c '
+                            export SONAR_TOKEN=${SONAR_TOKEN} && \
+                            . venv/bin/activate && \
+                            pytest --cov=. --cov-report=xml && \
+                            /opt/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner -Dsonar.login=\$SONAR_TOKEN
+                        '
+                        """
+                    }
                 }
             }
         }
+
 
         stage("Unit Testing") {
             steps {
