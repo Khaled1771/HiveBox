@@ -7,7 +7,7 @@ pipeline {
         IMAGE_TAG = "${BUILD_NUMBER}"
         CONTAINER_NAME = "hivebox"
         GIT_REPO = 'https://github.com/Khaled1771/HiveBox.git'
-        BRANCH = 'main'
+        BRANCH = 'Testing'
     }
 
     stages {
