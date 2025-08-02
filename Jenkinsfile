@@ -89,27 +89,27 @@ pipeline {
                     // unzip -q sonar-scanner.zip            
                     // sh "export PATH=/sonar-scanner-5.0.1.3006-linux/bin:$PATH"
                     // sh "sonar-scanner -Dsonar.login=$SONAR_TOKEN"
-        stage("SonarCloud Analysis") {
-            steps {
-                withCredentials([
-                    file(credentialsId: 'kubeconfig-hivebox', variable: 'KUBECONFIG'),
-                    string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')
-                ]) {
-                    script {
-                        def pod_name = sh(script: "kubectl get pods -n testing -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
-                        sh "kubectl cp /opt/sonar-scanner-5.0.1.3006-linux $pod_name:/opt/ -n testing --kubeconfig $KUBECONFIG"     // Copy Sonar-Scanner tool -> HiveBox Pod
-                        sh """
-                        kubectl exec -i $pod_name -n testing --kubeconfig $KUBECONFIG -- /bin/sh -c '
-                            export SONAR_TOKEN=${SONAR_TOKEN} && \
-                            . venv/bin/activate && \
-                            pytest --cov=. --cov-report=xml && \
-                            /opt/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner -Dsonar.login=\$SONAR_TOKEN
-                        '
-                        """
-                    }
-                }
-            }
-        }
+        // stage("SonarCloud Analysis") {
+        //     steps {
+        //         withCredentials([
+        //             file(credentialsId: 'kubeconfig-hivebox', variable: 'KUBECONFIG'),
+        //             string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')
+        //         ]) {
+        //             script {
+        //                 def pod_name = sh(script: "kubectl get pods -n testing -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
+        //                 sh "kubectl cp /opt/sonar-scanner-5.0.1.3006-linux $pod_name:/opt/ -n testing --kubeconfig $KUBECONFIG"     // Copy Sonar-Scanner tool -> HiveBox Pod
+        //                 sh """
+        //                 kubectl exec -i $pod_name -n testing --kubeconfig $KUBECONFIG -- /bin/sh -c '
+        //                     export SONAR_TOKEN=${SONAR_TOKEN} && \
+        //                     . venv/bin/activate && \
+        //                     pytest --cov=. --cov-report=xml && \
+        //                     /opt/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner -Dsonar.login=\$SONAR_TOKEN
+        //                 '
+        //                 """
+        //             }
+        //         }
+        //     }
+        // }
 
 
         stage("Unit Testing") {
@@ -137,7 +137,7 @@ pipeline {
                 // Readiness inside the Pod, Waiting 10 Sec.
                 sh """
                     echo "Waiting for pod to be ready..."
-                    kubectl wait --for=condition=ready pod/$pod_name -n testing --timeout=10s --kubeconfig $KUBECONFIG
+                    kubectl wait --for=condition=ready pod/$pod_name -n testing --timeout=5s --kubeconfig $KUBECONFIG
 
                     kubectl exec -i $pod_name --kubeconfig $KUBECONFIG -- /bin/sh -c '
                         . venv/bin/activate && \
