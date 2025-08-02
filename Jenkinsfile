@@ -139,7 +139,7 @@ pipeline {
                     echo "Waiting for pod to be ready..."
                     kubectl wait --for=condition=ready pod/$pod_name -n testing --timeout=5s --kubeconfig $KUBECONFIG
 
-                    kubectl exec -i $pod_name --kubeconfig $KUBECONFIG -- /bin/sh -c '
+                    kubectl exec -i $pod_name -n testing --kubeconfig $KUBECONFIG -- /bin/sh -c '
                         . venv/bin/activate && \
                         pytest test_integration.py
                     '
