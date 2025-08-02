@@ -81,8 +81,8 @@ pipeline {
 
         stage("Sleep before Analysis") {
             steps {
-                echo "Sleeping for 60 seconds..."
-                sleep time: 60, unit: 'SECONDS'
+                echo "Sleeping for 45 seconds..."
+                sleep time: 45, unit: 'SECONDS'
             }
         }
                     // curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
@@ -99,7 +99,7 @@ pipeline {
                         def pod_name = sh(script: "kubectl get pods -n testing -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
                         sh "kubectl cp /opt/sonar-scanner-5.0.1.3006-linux $pod_name:/opt/ -n testing --kubeconfig $KUBECONFIG"     // Copy Sonar-Scanner tool -> HiveBox Pod
                         sh """
-                        kubectl exec -i $pod_name --kubeconfig $KUBECONFIG -- /bin/sh -c '
+                        kubectl exec -i $pod_name -n testing --kubeconfig $KUBECONFIG -- /bin/sh -c '
                             export SONAR_TOKEN=${SONAR_TOKEN} && \
                             . venv/bin/activate && \
                             pytest --cov=. --cov-report=xml && \
@@ -118,7 +118,7 @@ pipeline {
                     script {
                         def pod_name = sh(script: "kubectl get pods -n testing -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
                         sh """
-                        kubectl exec -i $pod_name --kubeconfig $KUBECONFIG -- /bin/sh -c '
+                        kubectl exec -i $pod_name -n testing --kubeconfig $KUBECONFIG -- /bin/sh -c '
                             . venv/bin/activate && \
                             pytest test_app.py
                         '
@@ -137,7 +137,7 @@ pipeline {
                 // Readiness inside the Pod, Waiting 10 Sec.
                 sh """
                     echo "Waiting for pod to be ready..."
-                    kubectl wait --for=condition=ready pod/$pod_name --timeout=60s --kubeconfig $KUBECONFIG
+                    kubectl wait --for=condition=ready pod/$pod_name -n testing --timeout=10s --kubeconfig $KUBECONFIG
 
                     kubectl exec -i $pod_name --kubeconfig $KUBECONFIG -- /bin/sh -c '
                         . venv/bin/activate && \
@@ -164,7 +164,7 @@ pipeline {
                     script {
                         def pod_name = sh(script: "kubectl get pods -n testing -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
                         sh """
-                        kubectl exec -i $pod_name --kubeconfig $KUBECONFIG -- /bin/sh -c '
+                        kubectl exec -i $pod_name -n testing --kubeconfig $KUBECONFIG -- /bin/sh -c '
                             . venv/bin/activate && \
                             pytest test_e2e.py -v
                         '
