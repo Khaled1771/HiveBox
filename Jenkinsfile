@@ -90,7 +90,7 @@ pipeline {
                     string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')
                 ]) {
                     script {
-                        def pod_name = sh(script: "kubectl get pods -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
+                        def pod_name = sh(script: "kubectl get pods -n testing -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
                         sh "kubectl cp /opt/sonar-scanner-5.0.1.3006-linux $pod_name:/opt/ -n testing --kubeconfig $KUBECONFIG"     // Copy Sonar-Scanner tool -> HiveBox Pod
                         sh """
                         kubectl exec -i $pod_name --kubeconfig $KUBECONFIG -- /bin/sh -c '
@@ -110,7 +110,7 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'kubeconfig-hivebox', variable: 'KUBECONFIG')]) {
                     script {
-                        def pod_name = sh(script: "kubectl get pods -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
+                        def pod_name = sh(script: "kubectl get pods -n testing -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
                         sh """
                         kubectl exec -i $pod_name --kubeconfig $KUBECONFIG -- /bin/sh -c '
                             . venv/bin/activate && \
@@ -126,7 +126,7 @@ pipeline {
             steps {
         withCredentials([file(credentialsId: 'kubeconfig-hivebox', variable: 'KUBECONFIG')]) {
             script {
-                def pod_name = sh(script: "kubectl get pods -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
+                def pod_name = sh(script: "kubectl get pods -n testing -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
 
                 // Readiness inside the Pod, Waiting 10 Sec.
                 sh """
@@ -156,7 +156,7 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'kubeconfig-hivebox', variable: 'KUBECONFIG')]) {
                     script {
-                        def pod_name = sh(script: "kubectl get pods -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
+                        def pod_name = sh(script: "kubectl get pods -n testing -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
                         sh """
                         kubectl exec -i $pod_name --kubeconfig $KUBECONFIG -- /bin/sh -c '
                             . venv/bin/activate && \
