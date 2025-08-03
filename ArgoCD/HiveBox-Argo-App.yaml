@@ -1,20 +1,20 @@
-# apiVersion: argoproj.io/v1alpha1
-# kind: Application
-# metadata:
-#   name: hivebox
-#   namespace: argocd
-# spec:
-#   project: default
-#   source:
-#     repoURL: 'https://github.com/Khaled1771/HiveBox.git'
-#     path: Hivebox-chart
-#     targetRevision: main
-#     helm:
-#       releaseName: hivebox-release
-#   destination: 
-#     server: 'https://kubernetes.default.svc'
-#     namespace: default
-#   syncPolicy:
-#     automated:
-#       selfHeal: true
-#       prune: true    
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hivebox
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/Khaled1771/HiveBox.git'
+    path: Hivebox-chart
+    targetRevision: main
+    helm:
+      releaseName: hivebox-release
+  destination: 
+    server: 'https://kubernetes.default.svc'
+    namespace: default
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true    
