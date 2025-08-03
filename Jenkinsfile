@@ -69,20 +69,22 @@ pipeline {
 
         stage("Helm Upgrade") {
             steps {
-                script {
-                    withCredentials([file(credentialsId: 'kubeconfig-hivebox', variable: 'KUBECONFIG')]) {
-                        sh '''
-                            helm upgrade --install hivebox-release /mnt/MyData/Courses/Projects/HiveBox/Hivebox-chart --kubeconfig $KUBECONFIG --namespace testing
-                        '''
-                    }
-                }
+                sleep time: 5, unit: 'SECONDS'
+                echo "Happy Helming"
+                // script {
+                //     withCredentials([file(credentialsId: 'kubeconfig-hivebox', variable: 'KUBECONFIG')]) {
+                //         sh '''
+                //             helm upgrade --install hivebox-release /mnt/MyData/Courses/Projects/HiveBox/Hivebox-chart --kubeconfig $KUBECONFIG --namespace testing
+                //         '''
+                //     }
+                // }
             }
         }
 
         stage("Waiting Pods up") {
             steps {
-                echo "Sleeping for 60 seconds..."
-                sleep time: 60, unit: 'SECONDS'
+                echo "Sleeping for 10 seconds..."
+                sleep time: 10, unit: 'SECONDS'
             }
         }
                     // curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
