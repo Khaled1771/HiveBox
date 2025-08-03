@@ -58,7 +58,7 @@ pipeline {
             }
         }
 
-        stage("Ansible & Kubernetes") {
+        stage("Ansible Update Cluster") {
             steps {
                 script {
                     def hivebox_image_id = sh(script: "docker exec kind-control-plane crictl images | grep hivebox-img | awk '{print \$3}'", returnStdout: true).trim()    // Show the image's ID to delete it
@@ -67,7 +67,7 @@ pipeline {
             }
         }
 
-        stage("Helm Upgrade") {
+        stage("Helm & Kubernetes") {
             steps {
                 script {
                     withCredentials([file(credentialsId: 'kubeconfig-hivebox', variable: 'KUBECONFIG')]) {
