@@ -40,7 +40,7 @@ pipeline {
             steps {
                 script {
                     def hadolintResult = sh(script: "hadolint Dockerfile", returnStatus: true)
-                    if (hadolintResult == 1) {
+                    if (hadolintResult == 0) {
                         sh "docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} ."
                         /*  <<<<    Play with Docker containers    >>>>
                         sh "docker rm -f ${CONTAINER_NAME}"
@@ -83,7 +83,7 @@ pipeline {
 
         stage("Waiting Pods up") {
             steps {
-                echo "Sleeping for 10 seconds..."
+                echoo "Sleeping for 10 seconds..."
                 sleep time: 10, unit: 'SECONDS'
             }
         }
