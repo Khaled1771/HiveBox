@@ -79,7 +79,7 @@ pipeline {
             }
         }
 
-        stage("Sleep before Analysis") {
+        stage("Waiting Pods up") {
             steps {
                 echo "Sleeping for 60 seconds..."
                 sleep time: 60, unit: 'SECONDS'
