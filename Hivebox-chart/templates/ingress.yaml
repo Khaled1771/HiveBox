@@ -11,7 +11,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: hivebox.local
+    - host: hivebox.testing
       http:
         paths:
           - path: /
@@ -22,7 +22,7 @@ spec:
                 port:
                   number: 5000
 
-    - host: minio.local
+    - host: minio.testing
       http:
         paths:
           - path: /
@@ -33,24 +33,24 @@ spec:
                 port:
                   number: 9001
 
-    - host: prometheus.local
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: prometheus-kube-prometheus-prometheus
-                port:
-                  number: 9090
+    # - host: prometheus.local
+    #   http:
+    #     paths:
+    #       - path: /
+    #         pathType: Prefix
+    #         backend:
+    #           service:
+    #             name: prometheus-kube-prometheus-prometheus
+    #             port:
+    #               number: 9090
 
-    - host: grafana.local
-      http:
-        paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: grafana
-              port:
-                number: 80
+    # - host: grafana.local
+    #   http:
+    #     paths:
+    #     - path: /
+    #       pathType: Prefix
+    #       backend:
+    #         service:
+    #           name: grafana
+    #           port:
+    #             number: 80

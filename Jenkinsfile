@@ -7,7 +7,7 @@ pipeline {
         IMAGE_TAG = "${BUILD_NUMBER}"
         CONTAINER_NAME = "hivebox"
         GIT_REPO = 'https://github.com/Khaled1771/HiveBox.git'
-        BRANCH = 'main'
+        BRANCH = 'Testing'
     }
 
     stages {
@@ -72,35 +72,53 @@ pipeline {
                 script {
                     withCredentials([file(credentialsId: 'kubeconfig-hivebox', variable: 'KUBECONFIG')]) {
                         sh '''
-                            helm upgrade --install hivebox-release /mnt/MyData/Courses/Projects/HiveBox/Hivebox-chart --kubeconfig $KUBECONFIG
+                            helm upgrade --install hivebox-release /mnt/MyData/Courses/Projects/HiveBox/Hivebox-chart --kubeconfig $KUBECONFIG --namespace testing
                         '''
                     }
                 }
             }
         }
 
-        stage("SonarCloud Analysis") {
+        stage("Sleep before Analysis") {
             steps {
-                withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
-                    
-                        // curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
-                        // unzip -q sonar-scanner.zip
-                                    
-                    // sh "export PATH=/sonar-scanner-5.0.1.3006-linux/bin:$PATH"
-                    // sh "sonar-scanner -Dsonar.login=$SONAR_TOKEN"
-                    sh "venv/bin/python -m pytest --cov=. --cov-report=xml"      // Quality Gate in process, need integration tests
-                    sh "/opt/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner -Dsonar.login=$SONAR_TOKEN"
-                }
+                echo "Sleeping for 60 seconds..."
+                sleep time: 60, unit: 'SECONDS'
             }
         }
+                    // curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+                    // unzip -q sonar-scanner.zip            
+                    // sh "export PATH=/sonar-scanner-5.0.1.3006-linux/bin:$PATH"
+                    // sh "sonar-scanner -Dsonar.login=$SONAR_TOKEN"
+        // stage("SonarCloud Analysis") {
+        //     steps {
+        //         withCredentials([
+        //             file(credentialsId: 'kubeconfig-hivebox', variable: 'KUBECONFIG'),
+        //             string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')
+        //         ]) {
+        //             script {
+        //                 def pod_name = sh(script: "kubectl get pods -n testing -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
+        //                 sh "kubectl cp /opt/sonar-scanner-5.0.1.3006-linux $pod_name:/opt/ -n testing --kubeconfig $KUBECONFIG"     // Copy Sonar-Scanner tool -> HiveBox Pod
+        //                 sh """
+        //                 kubectl exec -i $pod_name -n testing --kubeconfig $KUBECONFIG -- /bin/sh -c '
+        //                     export SONAR_TOKEN=${SONAR_TOKEN} && \
+        //                     . venv/bin/activate && \
+        //                     pytest --cov=. --cov-report=xml && \
+        //                     /opt/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner -Dsonar.login=\$SONAR_TOKEN
+        //                 '
+        //                 """
+        //             }
+        //         }
+        //     }
+        // }
+
 
         stage("Unit Testing") {
             steps {
                 withCredentials([file(credentialsId: 'kubeconfig-hivebox', variable: 'KUBECONFIG')]) {
                     script {
-                        def pod_name = sh(script: "kubectl get pods -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
+                        def pod_name = sh(script: "kubectl get pods -n testing -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
                         sh """
-                        kubectl exec -i $pod_name --kubeconfig $KUBECONFIG -- /bin/sh -c '
+                        kubectl exec -i $pod_name -n testing --kubeconfig $KUBECONFIG -- /bin/sh -c '
                             . venv/bin/activate && \
                             pytest test_app.py
                         '
@@ -114,14 +132,14 @@ pipeline {
             steps {
         withCredentials([file(credentialsId: 'kubeconfig-hivebox', variable: 'KUBECONFIG')]) {
             script {
-                def pod_name = sh(script: "kubectl get pods -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
+                def pod_name = sh(script: "kubectl get pods -n testing -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
 
                 // Readiness inside the Pod, Waiting 10 Sec.
                 sh """
                     echo "Waiting for pod to be ready..."
-                    kubectl wait --for=condition=ready pod/$pod_name --timeout=60s --kubeconfig $KUBECONFIG
+                    kubectl wait --for=condition=ready pod/$pod_name -n testing --timeout=5s --kubeconfig $KUBECONFIG
 
-                    kubectl exec -i $pod_name --kubeconfig $KUBECONFIG -- /bin/sh -c '
+                    kubectl exec -i $pod_name -n testing --kubeconfig $KUBECONFIG -- /bin/sh -c '
                         . venv/bin/activate && \
                         pytest test_integration.py
                     '
@@ -144,9 +162,9 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'kubeconfig-hivebox', variable: 'KUBECONFIG')]) {
                     script {
-                        def pod_name = sh(script: "kubectl get pods -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
+                        def pod_name = sh(script: "kubectl get pods -n testing -l app=flask-app -o jsonpath='{.items[0].metadata.name}' --kubeconfig $KUBECONFIG", returnStdout: true).trim()
                         sh """
-                        kubectl exec -i $pod_name --kubeconfig $KUBECONFIG -- /bin/sh -c '
+                        kubectl exec -i $pod_name -n testing --kubeconfig $KUBECONFIG -- /bin/sh -c '
                             . venv/bin/activate && \
                             pytest test_e2e.py -v
                         '
