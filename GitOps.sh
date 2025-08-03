@@ -14,6 +14,8 @@ git remote set-url origin $REPO_URL
 set -x  # Show logs in pipeline
 echo "######### Git Operations #########"
 # This shell script for update remote git repo
+git add -A
+git commit -m "Update HiveBox's imageTag: ${IMAGE_TAG}" || echo "Nothing to commit"
 git checkout main
 git add -A
 git commit -m "Update HiveBox's imageTag: ${IMAGE_TAG}" || echo "Nothing to commit"
