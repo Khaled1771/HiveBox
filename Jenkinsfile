@@ -40,7 +40,7 @@ pipeline {
             steps {
                 script {
                     def hadolintResult = sh(script: "hadolint Dockerfile", returnStatus: true)
-                    if (hadolintResult == 0) {
+                    if (hadolintResult == 1) {
                         sh "docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} ."
                         /*  <<<<    Play with Docker containers    >>>>
                         sh "docker rm -f ${CONTAINER_NAME}"
@@ -58,7 +58,7 @@ pipeline {
             }
         }
 
-        stage("Ansible & Kubernetes") {
+        stage("Ansible Update Cluster") {
             steps {
                 script {
                     def hivebox_image_id = sh(script: "docker exec kind-control-plane crictl images | grep hivebox-img | awk '{print \$3}'", returnStdout: true).trim()    // Show the image's ID to delete it
@@ -67,7 +67,7 @@ pipeline {
             }
         }
 
-        stage("Helm Upgrade") {
+        stage("Helm & Kubernetes") {
             steps {
                 sleep time: 5, unit: 'SECONDS'
                 echo "Happy Helming"
