@@ -10,7 +10,7 @@ def test_temperature_endpoint_integration():
     Test on Kubernetes testing namespace
     """
     ip = os.environ.get("HIVEBOX_IP", "hivebox-service.testing.svc.cluster.local")
-    url = f"http://hivebox-service.testing-env.svc.cluster.local:5000/temperature"       # Kubernetes Service insted of ingress
+    url = f"http://hivebox-service.testing.svc.cluster.local:5000/temperature"       # Kubernetes Service insted of ingress
 
     response = requests.get(url)
     assert response.status_code in [200, 404]
