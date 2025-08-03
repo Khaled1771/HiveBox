@@ -5,6 +5,7 @@ IMAGE_TAG=$1
 # GIT_USERNAME=${GIT_USER}
 # GIT_PASSWORD=${GIT_PASS}
 REPO_URL="https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Khaled1771/HiveBox.git"
+MAINFEST_FILE="/mnt/MyData/Courses/Projects/HiveBox/Hivebox-chart/values.yaml"
 # Configure Git
 cd /mnt/MyData/Courses/Projects/HiveBox
 git config --global --add safe.directory /mnt/MyData/Courses/Projects/HiveBox
@@ -17,6 +18,7 @@ echo "######### Git Operations #########"
 git add -A
 git commit -m "Update HiveBox's imageTag: ${IMAGE_TAG}" || echo "Nothing to commit"
 git checkout main
+sed -i "s/^\(\s*tag:\s*\).*$/\1"${IMAGE_TAG}"/" ${MAINFEST_FILE}
 git add -A
 git commit -m "Update HiveBox's imageTag: ${IMAGE_TAG}" || echo "Nothing to commit"
 git pull --rebase origin main       # Deny any conflicts through pulling
