@@ -69,15 +69,15 @@ pipeline {
 
         stage("Helm & Kubernetes") {
             steps {
-                sleep time: 5, unit: 'SECONDS'
-                echo "Happy Helming"
-                // script {
-                //     withCredentials([file(credentialsId: 'kubeconfig-hivebox', variable: 'KUBECONFIG')]) {
-                //         sh '''
-                //             helm upgrade --install hivebox-release /mnt/MyData/Courses/Projects/HiveBox/Hivebox-chart --kubeconfig $KUBECONFIG --namespace testing
-                //         '''
-                //     }
-                // }
+                // sleep time: 5, unit: 'SECONDS'
+                // echo "Happy Helming"
+                script {
+                    withCredentials([file(credentialsId: 'kubeconfig-hivebox', variable: 'KUBECONFIG')]) {
+                        sh '''
+                            helm upgrade hivebox-release /mnt/MyData/Courses/Projects/HiveBox/Hivebox-chart --kubeconfig $KUBECONFIG --namespace testing
+                        '''
+                    }
+                }
             }
         }
 
