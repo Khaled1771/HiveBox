@@ -12,7 +12,7 @@ container:
 
 image:
   repository: hivebox-img
-  tag: 100
+  tag: "101"
   pullPolicy: IfNotPresent
 
 resources:
@@ -41,7 +41,7 @@ ingress:
      prometheus.io/path: "/metrics"     # Path to scrape metrics 
   }
   hosts:
-    - host: hivebox.testing
+    - host: hivebox.production
       http:
       paths:
       - path: /
@@ -51,7 +51,7 @@ ingress:
             name: hivebox-service
             port: 5000
 
-    - host: minio.testing
+    - host: minio.production
       http:
       paths:
       - path: /
