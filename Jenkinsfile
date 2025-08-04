@@ -74,7 +74,7 @@ pipeline {
                 script {
                     withCredentials([file(credentialsId: 'kubeconfig-hivebox', variable: 'KUBECONFIG')]) {
                         sh '''
-                            helm install hivebox-release /mnt/MyData/Courses/Projects/HiveBox/Hivebox-chart --kubeconfig $KUBECONFIG --namespace testing
+                            helm upgrade hivebox-release /mnt/MyData/Courses/Projects/HiveBox/Hivebox-chart --kubeconfig $KUBECONFIG --namespace testing
                         '''
                     }
                 }
