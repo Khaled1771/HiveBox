@@ -12,8 +12,8 @@ def test_end_to_end_temperature_store():
     Test on Kubernetes testing namespace
     """
     # Setup
-    base_url = os.getenv("HIVEBOX_URL", "http://hivebox-service.default.svc.cluster.local:5000")
-    minio_endpoint = os.getenv("MINIO_ENDPOINT", "minio-release-minio-service.default.svc.cluster.local:9000")
+    base_url = os.getenv("HIVEBOX_URL", "http://hivebox-service.testing.svc.cluster.local:5000")
+    minio_endpoint = os.getenv("MINIO_ENDPOINT", "minio-release-minio-service.testing.svc.cluster.local:9000")
     minio_client = Minio(
         minio_endpoint,
         access_key=os.getenv("MINIO_ACCESS_KEY", "minioadmin"),
