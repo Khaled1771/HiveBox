@@ -33,11 +33,11 @@ serviceAccount:
   name: ""
 
 ingress:
-  enabled: true  
+  enabled: true 
   className: "nginx"
   annotations:
     prometheus.io/scrape: "true"
-    prometheus.io/port: "5000" 
+    prometheus.io/port: "5000"  
     prometheus.io/path: "/metrics"
   hosts:
     - host: hivebox.testing
@@ -67,4 +67,3 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 3
   targetCPUUtilizationPercentage: 80
-
