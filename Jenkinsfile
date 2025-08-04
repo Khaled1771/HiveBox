@@ -83,8 +83,8 @@ pipeline {
 
         stage("Waiting Pods up") {
             steps {
-                echo "Sleeping for 10 seconds..."
-                sleep time: 10, unit: 'SECONDS'
+                echo "Sleeping for 60 seconds..."
+                sleep time: 60, unit: 'SECONDS'
             }
         }
                     // curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
